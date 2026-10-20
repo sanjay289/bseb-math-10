@@ -16,7 +16,7 @@
   header button { background:rgba(255,255,255,.18); color:#fff; border:0; border-radius:8px; padding:6px 12px; font-size:15px; }
   main { padding:14px 16px 40px; max-width:720px; margin:0 auto; }
   .tabs { display:flex; gap:8px; margin-bottom:14px; }
-  .tabs a { flex:1; text-align:center; padding:10px 4px; border-radius:10px; background:var(--card); color:var(--accent); text-decoration:none; font-weight:600; font-size:15px; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .tabs a { flex:1; display:flex; align-items:center; justify-content:center; text-align:center; padding:10px 4px; border-radius:10px; background:var(--card); color:var(--accent); text-decoration:none; font-weight:600; font-size:15px; box-shadow:0 1px 2px rgba(0,0,0,.08); }
   .tabs a.on { background:var(--brand); color:#fff; }
   .card { background:var(--card); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 1px 2px rgba(0,0,0,.08); }
   a.card { display:flex; align-items:center; gap:12px; color:inherit; text-decoration:none; }
@@ -24,7 +24,12 @@
   .sub { color:var(--muted); font-size:14px; }
   h2 { font-size:20px; margin:4px 0 12px; color:var(--accent); }
   ul.notes { padding-left:20px; margin:0; }
-  ul.notes li { margin-bottom:8px; }
+  ul.notes li { margin-bottom:8px; position:relative; padding-right:34px; }
+  .star { position:absolute; right:0; top:-4px; background:none; border:0; font-size:22px; line-height:1.4; padding:0 4px; color:var(--muted); }
+  .star.on { color:#F4B400; }
+  .saved { position:relative; padding-right:44px; }
+  .saved .star { right:8px; top:10px; }
+  .saved a { color:inherit; text-decoration:none; display:block; }
   table { border-collapse:collapse; width:100%; font-size:15px; }
   td, th { border:1px solid var(--line); padding:6px; text-align:center; }
   th { background:var(--th); }
@@ -430,7 +435,7 @@ function toggleTheme() {
 }
 
 function tabs(on) {
-  const t = [['#/', L('अध्याय','Chapters')], ['#/mock', L('मॉक टेस्ट','Mock Test')], ['#/tips', L('टिप्स','Tips')]];
+  const t = [['#/', L('अध्याय','Chapters')], ['#/saved', L('★ सहेजे','★ Saved')], ['#/mock', L('मॉक टेस्ट','Mock Test')], ['#/tips', L('टिप्स','Tips')]];
   return '<div class="tabs">' + t.map(([h, s]) => `<a href="${h}" class="${h === on ? 'on' : ''}">${s}</a>`).join('') + '</div>';
 }
 
@@ -473,10 +478,36 @@ function home() {
     + `<div id="results">${query.trim() ? results() : chapterList()}</div>`;
 }
 
+// Bookmarks are keyed by the note's English text, so they survive notes being added or reordered.
+let marks = [];
+try { marks = JSON.parse(localStorage.getItem('marks') || '[]'); } catch (e) {}
+
+function toggleMark(i, j) {
+  const k = CH[i].n[j][1];
+  marks = marks.includes(k) ? marks.filter(m => m !== k) : marks.concat(k);
+  try { localStorage.setItem('marks', JSON.stringify(marks)); } catch (e) {}
+  render();
+}
+
+function star(i, j) {
+  const on = marks.includes(CH[i].n[j][1]);
+  return `<button class="star${on ? ' on' : ''}" onclick="toggleMark(${i},${j})">${on ? '★' : '☆'}</button>`;
+}
+
+function savedView() {
+  let h = '';
+  CH.forEach((c, i) => c.n.forEach((x, j) => {
+    if (marks.includes(x[1])) {
+      h += `<div class="card saved"><a href="#/ch/${i}"><span class="sub">${i + 1}. ${esc(T(c.t))}</span><br>${esc(T(x))}</a>${star(i, j)}</div>`;
+    }
+  }));
+  return tabs('#/saved') + (h || `<p class="sub">${L('अभी कोई सूत्र सहेजा नहीं गया है। किसी अध्याय में सूत्र के आगे ☆ दबाकर उसे यहाँ सहेजें।','No saved formulas yet. Tap ☆ next to a formula in any chapter to save it here.')}</p>`);
+}
+
 function chapter(i) {
   const c = CH[i];
-  let h = `<h2>${i + 1}. ${esc(T(c.t))}</h2><div class="card"><b>${L('मुख्य सूत्र एवं तथ्य','Key formulas & facts')}</b><ul class="notes">`
-    + c.n.map(x => `<li>${esc(T(x))}</li>`).join('') + '</ul></div>';
+  let h = `<h2>${i + 1}. ${esc(T(c.t))}</h2><div class="card"><b>${L('मुख्य सूत्र एवं तथ्य','Key formulas & facts')}</b> <span class="sub">${L('(☆ दबाकर सहेजें)','(tap ☆ to save)')}</span><ul class="notes">`
+    + c.n.map((x, j) => `<li>${esc(T(x))}${star(i, j)}</li>`).join('') + '</ul></div>';
   if (c.table) {
     h += '<div class="card"><table>' + TRIG.map((r, k) =>
       '<tr>' + r.map(v => k === 0 ? `<th>${esc(T(v))}</th>` : `<td>${esc(T(v))}</td>`).join('') + '</tr>').join('') + '</table></div>';
@@ -585,6 +616,7 @@ function render() {
   }
   else if (r[0] === 'mock') h = mockIntro();
   else if (r[0] === 'tips') h = tipsView();
+  else if (r[0] === 'saved') h = savedView();
   else h = home();
   if (r[0] !== 'quiz') quiz = null;
   $('app').innerHTML = h;
