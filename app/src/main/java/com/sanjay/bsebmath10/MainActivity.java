@@ -2,6 +2,7 @@ package com.sanjay.bsebmath10;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -18,6 +19,12 @@ public class MainActivity extends Activity {
         web.addJavascriptInterface(this, "Android");
         setContentView(web);
         web.loadUrl("file:///android_asset/index.html");
+    }
+
+    @JavascriptInterface
+    public boolean isNight() {
+        return (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+                == Configuration.UI_MODE_NIGHT_YES;
     }
 
     @JavascriptInterface
