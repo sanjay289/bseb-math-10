@@ -61,7 +61,12 @@ const CH = [
     [["13/125 का दशमलव प्रसार है:","The decimal expansion of 13/125 is:"],[["सांत","terminating"],["असांत आवर्ती","non-terminating repeating"],["असांत अनावर्ती","non-terminating non-repeating"],["इनमें से कोई नहीं","none of these"]],0,"125 = 5³ = 2⁰ × 5³ ⇒ 13/125 = 0.104"],
     [["156 का अभाज्य गुणनखंड है:","Prime factorisation of 156 is:"],["2 × 3 × 13","2² × 3 × 13","2² × 3² × 13","2³ × 13"],1,"156 = 4 × 39 = 2² × 3 × 13"],
     [["6 और 20 का LCM है:","LCM of 6 and 20 is:"],["120","60","30","2"],1,"6 = 2×3, 20 = 2²×5 ⇒ LCM = 2²×3×5 = 60"],
-    [["सबसे छोटी अभाज्य और सबसे छोटी भाज्य संख्या का LCM है:","LCM of the smallest prime and the smallest composite number is:"],["2","4","8","6"],1,"2 और 4 ⇒ LCM = 4 / 2 and 4 ⇒ LCM = 4"]
+    [["सबसे छोटी अभाज्य और सबसे छोटी भाज्य संख्या का LCM है:","LCM of the smallest prime and the smallest composite number is:"],["2","4","8","6"],1,"2 और 4 ⇒ LCM = 4 / 2 and 4 ⇒ LCM = 4"],
+    [["96 और 404 का HCF है:","HCF of 96 and 404 is:"],["4","8","12","2"],0,"96 = 2⁵ × 3, 404 = 2² × 101 ⇒ HCF = 2² = 4"],
+    [["2³ × 3² और 2² × 3³ का LCM है:","LCM of 2³ × 3² and 2² × 3³ is:"],["72","108","216","36"],2,"2³ × 3³ = 216"],
+    [["किसका दशमलव प्रसार असांत आवर्ती है?","Which has a non-terminating repeating decimal expansion?"],["7/8","17/6","3/20","9/25"],1,"6 = 2 × 3 (3 के कारण असांत / the factor 3 makes it non-terminating)"],
+    [["दो क्रमागत प्राकृत संख्याओं का HCF होता है:","HCF of two consecutive natural numbers is:"],["0","1","2",["उनका गुणनफल","their product"]],1,["क्रमागत संख्याओं का कोई उभयनिष्ठ गुणनखंड (1 के अलावा) नहीं होता","Consecutive numbers share no factor other than 1"]],
+    [["2 + √3 एक:","2 + √3 is:"],[["परिमेय संख्या है","rational"],["अपरिमेय संख्या है","irrational"],["पूर्णांक है","an integer"],["प्राकृत संख्या है","a natural number"]],1,["परिमेय + अपरिमेय = अपरिमेय","Rational + irrational = irrational"]]
    ]},
  { t:["बहुपद","Polynomials"],
    n:[
@@ -78,7 +83,13 @@ const CH = [
     [["वह द्विघात बहुपद जिसके शून्यकों का योग 3 और गुणनफल 2 है:","Quadratic polynomial with sum of zeros 3 and product 2:"],["x² + 3x + 2","x² − 3x + 2","x² − 2x + 3","x² + 2x − 3"],1,"x² − Sx + P = x² − 3x + 2"],
     [["त्रिघात बहुपद के अधिकतम शून्यक होते हैं:","Maximum number of zeros of a cubic polynomial:"],["1","2","3","4"],2,["घात 3 ⇒ अधिकतम 3 शून्यक","Degree 3 ⇒ at most 3 zeros"]],
     [["यदि x² + kx − 6 का एक शून्यक 2 है, तो k =","If 2 is a zero of x² + kx − 6, then k ="],["1","−1","2","3"],0,"4 + 2k − 6 = 0 ⇒ k = 1"],
-    [["शून्य बहुपद की घात होती है:","Degree of the zero polynomial is:"],["0","1",["परिभाषित नहीं","not defined"],"−1"],2,["शून्य बहुपद की घात परिभाषित नहीं है","The degree of the zero polynomial is not defined"]]
+    [["शून्य बहुपद की घात होती है:","Degree of the zero polynomial is:"],["0","1",["परिभाषित नहीं","not defined"],"−1"],2,["शून्य बहुपद की घात परिभाषित नहीं है","The degree of the zero polynomial is not defined"]],
+    [["यदि α, β बहुपद x² − 7x + 10 के शून्यक हैं, तो α + β + αβ =","If α, β are zeros of x² − 7x + 10, then α + β + αβ ="],["17","3","−3","70"],0,"α + β = 7, αβ = 10 ⇒ 17"],
+    [["x² − 2x के शून्यक हैं:","Zeros of x² − 2x are:"],["0, 2","0, −2","1, 2","2, −2"],0,"x(x − 2) = 0"],
+    [["x² − 3 के शून्यकों का (योग, गुणनफल) है:","(Sum, product) of zeros of x² − 3:"],["0, −3","3, 0","0, 3","−3, 0"],0,"−b/a = 0, c/a = −3"],
+    [["यदि x² + px + q के शून्यक 2 और −3 हैं, तो:","If the zeros of x² + px + q are 2 and −3, then:"],["p = 1, q = −6","p = −1, q = 6","p = −1, q = −6","p = 1, q = 6"],0,"(x − 2)(x + 3) = x² + x − 6"],
+    [["y = ax² + bx + c (a > 0) का ग्राफ होता है:","The graph of y = ax² + bx + c (a > 0) is:"],[["ऊपर की ओर खुला परवलय","a parabola opening upwards"],["नीचे की ओर खुला परवलय","a parabola opening downwards"],["सरल रेखा","a straight line"],["वृत्त","a circle"]],0,["a > 0 ⇒ परवलय ऊपर की ओर खुलता है","a > 0 ⇒ the parabola opens upwards"]],
+    [["यदि 2x² + 3x + k का एक शून्यक 1/2 है, तो k =","If 1/2 is a zero of 2x² + 3x + k, then k ="],["−2","2","−1","1"],0,"2(1/4) + 3(1/2) + k = 0 ⇒ 2 + k = 0"]
    ]},
  { t:["दो चरों वाले रैखिक समीकरणों का युग्म","Pair of Linear Equations in Two Variables"],
    n:[
@@ -95,7 +106,13 @@ const CH = [
     [["k के किस मान के लिए kx + 3y = 3 और 12x + ky = 6 का कोई हल नहीं है?","For which k do kx + 3y = 3 and 12x + ky = 6 have no solution?"],["6","−6","±6","0"],1,"k/12 = 3/k ⇒ k = ±6; k = 6 पर अनंत हल, अतः k = −6 / k = 6 gives infinitely many, so k = −6"],
     [["यदि x = 2, y = 1 समीकरण 2x + 3y = k का हल है, तो k =","If x = 2, y = 1 is a solution of 2x + 3y = k, then k ="],["5","6","7","8"],2,"2(2) + 3(1) = 7"],
     [["दो संख्याओं का योग 20 और अंतर 4 है। संख्याएँ हैं:","Two numbers have sum 20 and difference 4. The numbers are:"],["12, 8","14, 6","10, 10","16, 4"],0,"x + y = 20, x − y = 4 ⇒ x = 12, y = 8"],
-    [["x = 3 का ग्राफ होता है:","The graph of x = 3 is a line:"],[["x-अक्ष के समांतर","parallel to the x-axis"],["y-अक्ष के समांतर","parallel to the y-axis"],["मूल बिंदु से गुजरती","through the origin"],["x-अक्ष स्वयं","the x-axis itself"]],1,["x = 3 पर सभी बिंदु (3, y) हैं — ऊर्ध्वाधर रेखा","All points are (3, y) — a vertical line"]]
+    [["x = 3 का ग्राफ होता है:","The graph of x = 3 is a line:"],[["x-अक्ष के समांतर","parallel to the x-axis"],["y-अक्ष के समांतर","parallel to the y-axis"],["मूल बिंदु से गुजरती","through the origin"],["x-अक्ष स्वयं","the x-axis itself"]],1,["x = 3 पर सभी बिंदु (3, y) हैं — ऊर्ध्वाधर रेखा","All points are (3, y) — a vertical line"]],
+    [["यदि 3x + 2y = 12 और x = 2, तो y =","If 3x + 2y = 12 and x = 2, then y ="],["2","3","4","6"],1,"6 + 2y = 12 ⇒ y = 3"],
+    [["x + y = 7 और 2x − y = 2 का हल है:","Solution of x + y = 7 and 2x − y = 2:"],["x = 3, y = 4","x = 4, y = 3","x = 2, y = 5","x = 5, y = 2"],0,"जोड़ने पर / adding: 3x = 9 ⇒ x = 3, y = 4"],
+    [["2x + ky = 1 और 3x + 5y = 7 का अद्वितीय हल होने के लिए:","2x + ky = 1 and 3x + 5y = 7 have a unique solution when:"],["k = 10/3","k ≠ 10/3","k = 0","k = 5"],1,"2/3 ≠ k/5 ⇒ k ≠ 10/3"],
+    [["x + 2y = 3 और 2x + 4y = 6 से बनी रेखाएँ हैं:","Lines x + 2y = 3 and 2x + 4y = 6 are:"],[["प्रतिच्छेदी","intersecting"],["समांतर","parallel"],["संपाती","coincident"],["लंबवत","perpendicular"]],2,"1/2 = 2/4 = 3/6"],
+    [["2 कलम और 3 पेंसिल का मूल्य ₹27 तथा 1 कलम और 1 पेंसिल का ₹11 है। एक कलम का मूल्य:","2 pens and 3 pencils cost ₹27; 1 pen and 1 pencil cost ₹11. Cost of a pen:"],["₹5","₹6","₹7","₹4"],1,"2p + 3(11 − p) = 27 ⇒ p = 6"],
+    [["जिस समीकरण युग्म का कोई हल न हो, वह कहलाता है:","A pair of equations with no solution is called:"],[["संगत","consistent"],["असंगत","inconsistent"],["आश्रित","dependent"],["इनमें से कोई नहीं","none of these"]],1,["कोई हल नहीं ⇒ असंगत","No solution ⇒ inconsistent"]]
    ]},
  { t:["द्विघात समीकरण","Quadratic Equations"],
    n:[
@@ -112,7 +129,13 @@ const CH = [
     [["k के किस मान के लिए x² + kx + 9 = 0 के मूल बराबर हैं?","For which k does x² + kx + 9 = 0 have equal roots?"],["3","±3","±6","9"],2,"k² − 36 = 0 ⇒ k = ±6"],
     [["निम्न में से द्विघात समीकरण है:","Which of these is a quadratic equation?"],["2x + 3 = 0","x² − 3x + 2 = 0","x³ + x = 1","√x + 2 = 0"],1,["x की उच्चतम घात 2","Highest power of x is 2"]],
     [["2x² − 7x + 3 = 0 के मूल हैं:","Roots of 2x² − 7x + 3 = 0 are:"],["3, 1/2","−3, −1/2","3, −1/2","1, 3/2"],0,"(2x − 1)(x − 3) = 0"],
-    [["यदि x² − 6x + k = 0 का एक मूल 2 है, तो k =","If 2 is a root of x² − 6x + k = 0, then k ="],["4","6","8","12"],2,"4 − 12 + k = 0 ⇒ k = 8"]
+    [["यदि x² − 6x + k = 0 का एक मूल 2 है, तो k =","If 2 is a root of x² − 6x + k = 0, then k ="],["4","6","8","12"],2,"4 − 12 + k = 0 ⇒ k = 8"],
+    [["3x² − 6x + 2 = 0 के मूलों का योग:","Sum of roots of 3x² − 6x + 2 = 0:"],["2","−2","2/3","6"],0,"−b/a = 6/3 = 2"],
+    [["x² + 5x − 14 = 0 के मूलों का गुणनफल:","Product of roots of x² + 5x − 14 = 0:"],["14","−14","5","−5"],1,"c/a = −14"],
+    [["x² + x − 12 = 0 के मूल हैं:","Roots of x² + x − 12 = 0 are:"],["3, −4","−3, 4","3, 4","−3, −4"],0,"(x + 4)(x − 3) = 0"],
+    [["x² + 2x + 5 = 0 के मूल:","Roots of x² + 2x + 5 = 0 are:"],[["भिन्न वास्तविक","distinct real"],["बराबर वास्तविक","equal real"],["वास्तविक नहीं","not real"],["केवल एक","only one"]],2,"D = 4 − 20 = −16 < 0"],
+    [["दो क्रमागत धनात्मक पूर्णांकों का गुणनफल 30 है। पूर्णांक हैं:","The product of two consecutive positive integers is 30. They are:"],["5, 6","6, 7","4, 5","3, 10"],0,"x(x + 1) = 30 ⇒ x² + x − 30 = 0 ⇒ x = 5"],
+    [["वह द्विघात समीकरण जिसके मूल 2 और 3 हैं:","Quadratic equation whose roots are 2 and 3:"],["x² − 5x + 6 = 0","x² + 5x + 6 = 0","x² − 6x + 5 = 0","x² + x − 6 = 0"],0,"x² − (2 + 3)x + 2 × 3 = 0"]
    ]},
  { t:["समांतर श्रेढ़ी","Arithmetic Progressions"],
    n:[
@@ -130,7 +153,13 @@ const CH = [
     [["3, 8, 13, … का कौन-सा पद 78 है?","Which term of 3, 8, 13, … is 78?"],["15","16","17","14"],1,"3 + (n − 1)5 = 78 ⇒ n = 16"],
     [["यदि 2k − 1, 7, 3k समांतर श्रेढ़ी में हैं, तो k =","If 2k − 1, 7, 3k are in AP, then k ="],["2","3","4","5"],1,"2 × 7 = (2k − 1) + 3k ⇒ 5k = 15 ⇒ k = 3"],
     [["1, 3, 5, … के प्रथम 10 पदों का योग है:","Sum of first 10 terms of 1, 3, 5, … is:"],["100","90","110","55"],0,"n² = 10² = 100"],
-    [["यदि n वाँ पद 3n + 2 है, तो सार्व अंतर है:","If the nth term is 3n + 2, the common difference is:"],["2","3","5","−3"],1,"aₙ₊₁ − aₙ = 3"]
+    [["यदि n वाँ पद 3n + 2 है, तो सार्व अंतर है:","If the nth term is 3n + 2, the common difference is:"],["2","3","5","−3"],1,"aₙ₊₁ − aₙ = 3"],
+    [["√2, √8, √18, … का अगला पद:","Next term of √2, √8, √18, …:"],["√32","√24","√28","√36"],0,"√2, 2√2, 3√2 ⇒ 4√2 = √32"],
+    [["यदि Sₙ = n², तो a₃ =","If Sₙ = n², then a₃ ="],["5","9","3","4"],0,"a₃ = S₃ − S₂ = 9 − 4 = 5"],
+    [["2, 4, 6, … के प्रथम 10 पदों का योग:","Sum of first 10 terms of 2, 4, 6, …:"],["110","100","55","120"],0,"10/2 [4 + 9 × 2] = 5 × 22 = 110"],
+    [["3 से विभाज्य दो अंकों की कितनी संख्याएँ हैं?","How many two-digit numbers are divisible by 3?"],["30","33","29","31"],0,"12, 15, …, 99 ⇒ (99 − 12)/3 + 1 = 30"],
+    [["निम्न में से समांतर श्रेढ़ी है:","Which of these is an AP?"],["1, 4, 9, 16","2, 4, 8, 16","5, 5, 5, 5","1, 3, 9, 27"],2,["d = 0 वाली श्रेढ़ी भी समांतर श्रेढ़ी है","A sequence with d = 0 is also an AP"]],
+    [["−3, −1/2, 2, … का 11वाँ पद:","11th term of −3, −1/2, 2, …:"],["22","28","−38","25"],0,"d = 5/2 ⇒ a₁₁ = −3 + 10 × 5/2 = 22"]
    ]},
  { t:["त्रिभुज","Triangles"],
    n:[
@@ -147,7 +176,13 @@ const CH = [
     [["निम्न में से कौन सदैव समरूप होते हैं?","Which of these are always similar?"],[["दो समद्विबाहु त्रिभुज","two isosceles triangles"],["दो आयत","two rectangles"],["दो समबाहु त्रिभुज","two equilateral triangles"],["दो समचतुर्भुज","two rhombuses"]],2,["समबाहु त्रिभुज के सभी कोण 60° होते हैं","All angles of an equilateral triangle are 60°"]],
     [["△ABC ~ △PQR, ∠A = 50°, ∠B = 60° तो ∠R =","△ABC ~ △PQR, ∠A = 50°, ∠B = 60°. Then ∠R ="],["50°","60°","70°","80°"],2,"∠R = ∠C = 180° − 50° − 60° = 70°"],
     [["10 m लंबी सीढ़ी का पाद दीवार से 6 m दूर है। सीढ़ी दीवार पर कितनी ऊँचाई तक पहुँचती है?","A 10 m ladder has its foot 6 m from a wall. How high up the wall does it reach?"],["6 m","8 m","4 m","12 m"],1,"√(10² − 6²) = √64 = 8"],
-    [["भुजा a वाले वर्ग का विकर्ण:","Diagonal of a square of side a:"],["a√2","2a","a√3","a/√2"],0,"√(a² + a²) = a√2"]
+    [["भुजा a वाले वर्ग का विकर्ण:","Diagonal of a square of side a:"],["a√2","2a","a√3","a/√2"],0,"√(a² + a²) = a√2"],
+    [["△ABC में DE ∥ BC, AD/DB = 3/5 और AE = 6 cm, तो EC =","In △ABC, DE ∥ BC, AD/DB = 3/5 and AE = 6 cm. Then EC ="],["10 cm","8 cm","3.6 cm","12 cm"],0,"3/5 = 6/EC ⇒ EC = 10"],
+    [["दो समरूप त्रिभुजों के क्षेत्रफल 81 cm² और 49 cm² हैं। संगत भुजाओं का अनुपात:","Areas of two similar triangles are 81 cm² and 49 cm². Ratio of corresponding sides:"],["81 : 49","9 : 7","7 : 9","3 : 7"],1,"√(81/49) = 9/7"],
+    [["समकोण त्रिभुज की भुजाएँ 5 cm और 12 cm हैं। कर्ण:","The legs of a right triangle are 5 cm and 12 cm. Hypotenuse:"],["13 cm","17 cm","15 cm","11 cm"],0,"√(25 + 144) = √169 = 13"],
+    [["△ABC ~ △DEF, AB = 4 cm, DE = 6 cm और △ABC का परिमाप 20 cm है। △DEF का परिमाप:","△ABC ~ △DEF, AB = 4 cm, DE = 6 cm, perimeter of △ABC = 20 cm. Perimeter of △DEF:"],["30 cm","25 cm","45 cm","24 cm"],0,["परिमापों का अनुपात = भुजाओं का अनुपात ⇒ 20 × 6/4 = 30","Perimeters are in the ratio of sides ⇒ 20 × 6/4 = 30"]],
+    [["△ABC में AB² + BC² = AC² है, तो समकोण किस शीर्ष पर है?","In △ABC, AB² + BC² = AC². The right angle is at:"],["A","B","C",["कहीं नहीं","none"]],1,["AC कर्ण है, अतः समकोण उसके सामने B पर","AC is the hypotenuse, so the right angle is opposite it, at B"]],
+    [["दो त्रिभुजों के दो-दो कोण बराबर हों तो वे समरूप हैं। यह कसौटी है:","Two triangles with two pairs of equal angles are similar. This criterion is:"],["AA","SSS","SAS","RHS"],0,["तीसरा कोण अपने-आप बराबर हो जाता है","The third angle is then automatically equal"]]
    ]},
  { t:["निर्देशांक ज्यामिति","Coordinate Geometry"],
    n:[
@@ -165,7 +200,13 @@ const CH = [
     [["(−1, 7) और (4, −3) को 2 : 3 में अंतःविभाजित करने वाला बिंदु:","Point dividing (−1, 7) and (4, −3) internally in 2 : 3:"],["(1, 3)","(3, 1)","(2, 3)","(1, −3)"],0,"x = (8 − 3)/5 = 1, y = (−6 + 21)/5 = 3"],
     [["x-अक्ष पर स्थित बिंदु का रूप होता है:","A point on the x-axis has the form:"],["(0, y)","(x, 0)","(x, x)","(y, x)"],1,["x-अक्ष पर y = 0","On the x-axis, y = 0"]],
     [["(1, 2), (3, 4), (5, 0) वाले त्रिभुज का केन्द्रक:","Centroid of the triangle with vertices (1, 2), (3, 4), (5, 0):"],["(3, 2)","(9, 6)","(2, 3)","(3, 3)"],0,"((1 + 3 + 5)/3, (2 + 4 + 0)/3) = (3, 2)"],
-    [["बिंदु (−6, 8) की मूल बिंदु से दूरी:","Distance of (−6, 8) from the origin:"],["6","8","10","14"],2,"√(36 + 64) = 10"]
+    [["बिंदु (−6, 8) की मूल बिंदु से दूरी:","Distance of (−6, 8) from the origin:"],["6","8","10","14"],2,"√(36 + 64) = 10"],
+    [["बिंदु (3, −4) किस पाद में है?","In which quadrant does (3, −4) lie?"],[["प्रथम","first"],["द्वितीय","second"],["तृतीय","third"],["चतुर्थ","fourth"]],3,"x > 0, y < 0"],
+    [["(−2, 3) और (4, −5) का मध्य बिंदु:","Midpoint of (−2, 3) and (4, −5):"],["(1, −1)","(2, −2)","(3, −4)","(−1, 1)"],0,"((−2 + 4)/2, (3 − 5)/2) = (1, −1)"],
+    [["(a, b) और (−a, −b) के बीच की दूरी:","Distance between (a, b) and (−a, −b):"],["2√(a² + b²)","√(a² + b²)","0","2(a + b)"],0,"√[(2a)² + (2b)²] = 2√(a² + b²)"],
+    [["x-अक्ष, (2, −3) और (5, 6) को मिलाने वाले रेखाखंड को किस अनुपात में बाँटता है?","In what ratio does the x-axis divide the segment joining (2, −3) and (5, 6)?"],["1 : 2","2 : 1","3 : 5","2 : 3"],0,"k : 1 ⇒ (6k − 3)/(k + 1) = 0 ⇒ k = 1/2"],
+    [["(0, 0), (4, 0), (0, 3) शीर्षों वाले त्रिभुज का क्षेत्रफल:","Area of the triangle with vertices (0, 0), (4, 0), (0, 3):"],["6","12","7","3.5"],0,"½ × 4 × 3 = 6"],
+    [["निम्न में से कौन-सा बिंदु y-अक्ष पर है?","Which point lies on the y-axis?"],["(0, −5)","(−5, 0)","(5, 5)","(1, 0)"],0,["y-अक्ष पर x = 0","On the y-axis, x = 0"]]
    ]},
  { t:["त्रिकोणमिति का परिचय","Introduction to Trigonometry"],
    n:[
@@ -183,7 +224,12 @@ const CH = [
     [["sec²θ − tan²θ =","sec²θ − tan²θ ="],["0","1","−1","2"],1,"1 + tan²θ = sec²θ"],
     [["2 sin 30° cos 30° =","2 sin 30° cos 30° ="],["sin 60°","cos 60°","tan 60°","sin 30°"],0,"2 × 1/2 × √3/2 = √3/2 = sin 60°"],
     [["sin 60° cos 30° + cos 60° sin 30° =","sin 60° cos 30° + cos 60° sin 30° ="],["0","1","1/2","√3"],1,"3/4 + 1/4 = 1"],
-    [["sin 50°/cos 40° =","sin 50°/cos 40° ="],["0","1","√3","1/2"],1,"sin 50° = cos(90° − 50°) = cos 40°"]
+    [["sin 50°/cos 40° =","sin 50°/cos 40° ="],["0","1","√3","1/2"],1,"sin 50° = cos(90° − 50°) = cos 40°"],
+    [["cos 0° + sin 90° =","cos 0° + sin 90° ="],["0","1","2","√2"],2,"1 + 1 = 2"],
+    [["यदि tan A = 4/3, तो sin A =","If tan A = 4/3, then sin A ="],["4/5","3/5","3/4","5/4"],0,["लंब 4, आधार 3 ⇒ कर्ण 5","Perpendicular 4, base 3 ⇒ hypotenuse 5"]],
+    [["(1 + tan²A) cos²A =","(1 + tan²A) cos²A ="],["0","1","tan²A","sin²A"],1,"sec²A × cos²A = 1"],
+    [["यदि sin θ = cos θ (θ न्यूनकोण), तो θ =","If sin θ = cos θ (θ acute), then θ ="],["0°","30°","45°","60°"],2,"tan θ = 1 ⇒ θ = 45°"],
+    [["tan 30° × tan 60° =","tan 30° × tan 60° ="],["1","√3","1/√3","3"],0,"(1/√3) × √3 = 1"]
    ]},
  { t:["त्रिकोणमिति के कुछ अनुप्रयोग","Some Applications of Trigonometry"],
    n:[
@@ -199,7 +245,13 @@ const CH = [
     [["100 m लंबी पतंग की डोरी क्षैतिज से 30° का कोण बनाती है। पतंग की ऊँचाई:","A 100 m kite string makes 30° with the ground. Height of the kite:"],["50 m","50√3 m","100 m","100/√3 m"],0,"h = 100 sin 30° = 50"],
     [["यदि छाया की लंबाई ऊँचाई की √3 गुनी है, तो उन्नयन कोण:","If the shadow is √3 times the height, the angle of elevation is:"],["30°","45°","60°","90°"],0,"tan θ = h/(√3h) = 1/√3 ⇒ θ = 30°"],
     [["75 m ऊँचे प्रकाश-स्तंभ से जहाज का अवनमन कोण 30° है। जहाज की दूरी:","From a 75 m lighthouse, the depression of a ship is 30°. Distance of the ship:"],["75 m","75√3 m","25√3 m","150 m"],1,"d = 75 / tan 30° = 75√3"],
-    [["मीनार की ओर बढ़ने पर उसके शिखर का उन्नयन कोण:","Moving towards a tower, the angle of elevation of its top:"],[["बढ़ता है","increases"],["घटता है","decreases"],["समान रहता है","stays the same"],["शून्य हो जाता है","becomes zero"]],0,["दूरी घटती है ⇒ tan θ बढ़ता है","Distance decreases ⇒ tan θ increases"]]
+    [["मीनार की ओर बढ़ने पर उसके शिखर का उन्नयन कोण:","Moving towards a tower, the angle of elevation of its top:"],[["बढ़ता है","increases"],["घटता है","decreases"],["समान रहता है","stays the same"],["शून्य हो जाता है","becomes zero"]],0,["दूरी घटती है ⇒ tan θ बढ़ता है","Distance decreases ⇒ tan θ increases"]],
+    [["सूर्य का उन्नयन कोण घटने पर किसी खंभे की छाया की लंबाई:","As the sun's angle of elevation decreases, the length of a pole's shadow:"],[["बढ़ती है","increases"],["घटती है","decreases"],["समान रहती है","stays the same"],["शून्य हो जाती है","becomes zero"]],0,"shadow = h / tan θ"],
+    [["6 m ऊँचे खंभे की छाया 2√3 m है। सूर्य का उन्नयन कोण:","A 6 m pole casts a 2√3 m shadow. The sun's angle of elevation:"],["30°","45°","60°","90°"],2,"tan θ = 6/(2√3) = √3 ⇒ 60°"],
+    [["1.5 m लंबा व्यक्ति चिमनी से 28.5 m दूर है और शिखर का उन्नयन कोण 45° है। चिमनी की ऊँचाई:","A 1.5 m tall observer is 28.5 m from a chimney; the elevation of its top is 45°. Height of the chimney:"],["30 m","28.5 m","27 m","31.5 m"],0,"28.5 tan 45° + 1.5 = 30"],
+    [["दीवार से टिकी सीढ़ी भूमि से 60° का कोण बनाती है और दीवार पर 6 m ऊँचाई तक पहुँचती है। सीढ़ी की लंबाई:","A ladder against a wall makes 60° with the ground and reaches 6 m up the wall. Length of the ladder:"],["4√3 m","6√3 m","12 m","3√3 m"],0,"6 / sin 60° = 12/√3 = 4√3"],
+    [["20 m ऊँचे भवन के शिखर से एक कार का अवनमन कोण 45° है। कार की भवन से दूरी:","From the top of a 20 m building, the depression of a car is 45°. Distance of the car from the building:"],["20 m","20√3 m","10 m","40 m"],0,"20 / tan 45° = 20"],
+    [["मीनार से 40 m दूर बिंदु से उन्नयन कोण θ है, जहाँ tan θ = 3/4। मीनार की ऊँचाई:","From 40 m away, the elevation of a tower's top is θ with tan θ = 3/4. Height of the tower:"],["30 m","40 m","50 m","160/3 m"],0,"40 × 3/4 = 30"]
    ]},
  { t:["वृत्त","Circles"],
    n:[
@@ -216,7 +268,13 @@ const CH = [
     [["बाह्य बिंदु से वृत्त पर कितनी स्पर्श रेखाएँ खींची जा सकती हैं?","How many tangents can be drawn from an external point?"],["1","2","0",["अनंत","infinitely many"]],1,["ठीक दो","Exactly two"]],
     [["वृत्त के अंदर स्थित बिंदु से कितनी स्पर्श रेखाएँ?","How many tangents from a point inside the circle?"],["0","1","2",["अनंत","infinitely many"]],0,["अंतः बिंदु से कोई स्पर्श रेखा नहीं","None from an interior point"]],
     [["बिंदु P से स्पर्श रेखाएँ PA, PB के बीच का कोण 80° है। ∠AOB =","Tangents PA, PB from P make an angle of 80°. ∠AOB ="],["80°","100°","50°","90°"],1,"180° − 80° = 100°"],
-    [["4 cm त्रिज्या वाले वृत्त की दो समांतर स्पर्श रेखाओं के बीच की दूरी:","Distance between two parallel tangents of a circle of radius 4 cm:"],["4 cm","8 cm","16 cm","2 cm"],1,["व्यास = 2 × 4 = 8","Diameter = 2 × 4 = 8"]]
+    [["4 cm त्रिज्या वाले वृत्त की दो समांतर स्पर्श रेखाओं के बीच की दूरी:","Distance between two parallel tangents of a circle of radius 4 cm:"],["4 cm","8 cm","16 cm","2 cm"],1,["व्यास = 2 × 4 = 8","Diameter = 2 × 4 = 8"]],
+    [["केन्द्र से 13 cm दूर बिंदु से 5 cm त्रिज्या वाले वृत्त पर स्पर्श रेखा की लंबाई:","Tangent length from a point 13 cm from the centre of a circle of radius 5 cm:"],["12 cm","8 cm","18 cm","13 cm"],0,"√(169 − 25) = 12"],
+    [["वृत्त को दो बिंदुओं पर काटने वाली रेखा कहलाती है:","A line that cuts a circle at two points is a:"],[["स्पर्श रेखा","tangent"],["छेदक रेखा","secant"],["जीवा","chord"],["व्यास","diameter"]],1,["जीवा एक रेखाखंड है; पूरी रेखा छेदक है","A chord is a segment; the whole line is a secant"]],
+    [["स्पर्श रेखा वृत्त को कितने बिंदुओं पर स्पर्श करती है?","At how many points does a tangent touch a circle?"],["0","1","2",["अनंत","infinitely many"]],1,["ठीक एक बिंदु","Exactly one point"]],
+    [["बाह्य बिंदु P से स्पर्श रेखाएँ PA और PB हैं। यदि PA = 7 cm, तो PB =","PA and PB are tangents from an external point P. If PA = 7 cm, then PB ="],["7 cm","14 cm","3.5 cm",["निर्धारित नहीं","cannot be found"]],0,["बाह्य बिंदु से स्पर्श रेखाएँ बराबर होती हैं","Tangents from an external point are equal"]],
+    [["PA, PB स्पर्श रेखाएँ हैं और ∠AOB = 110°, तो ∠APB =","PA, PB are tangents and ∠AOB = 110°. Then ∠APB ="],["70°","110°","55°","35°"],0,"180° − 110° = 70°"],
+    [["5 cm और 3 cm त्रिज्या वाले संकेन्द्री वृत्तों में बड़े वृत्त की जीवा छोटे वृत्त को स्पर्श करती है। जीवा की लंबाई:","Concentric circles have radii 5 cm and 3 cm. A chord of the larger circle touches the smaller one. Length of the chord:"],["8 cm","4 cm","6 cm","10 cm"],0,"2√(25 − 9) = 8"]
    ]},
  { t:["वृत्तों से संबंधित क्षेत्रफल","Areas Related to Circles"],
    n:[
@@ -232,7 +290,13 @@ const CH = [
     [["14 cm त्रिज्या और 90° कोण वाले त्रिज्यखंड का क्षेत्रफल:","Area of a sector of radius 14 cm and angle 90°:"],["154 cm²","616 cm²","77 cm²","308 cm²"],0,"1/4 × 22/7 × 196 = 154"],
     [["यदि वृत्त की परिधि और क्षेत्रफल संख्यात्मक रूप से बराबर हैं, तो त्रिज्या:","If a circle's circumference and area are numerically equal, its radius is:"],["1","2","4","π"],1,"2πr = πr² ⇒ r = 2"],
     [["21 cm त्रिज्या वाले वृत्त में 60° कोण की चाप की लंबाई:","Length of an arc of angle 60° in a circle of radius 21 cm:"],["22 cm","44 cm","11 cm","66 cm"],0,"1/6 × 2 × 22/7 × 21 = 22"],
-    [["घड़ी की मिनट की सुई 5 मिनट में कितना कोण घूमती है?","Angle swept by a minute hand in 5 minutes:"],["30°","60°","5°","90°"],0,"360° × 5/60 = 30°"]
+    [["घड़ी की मिनट की सुई 5 मिनट में कितना कोण घूमती है?","Angle swept by a minute hand in 5 minutes:"],["30°","60°","5°","90°"],0,"360° × 5/60 = 30°"],
+    [["14 cm त्रिज्या वाले अर्धवृत्त का क्षेत्रफल:","Area of a semicircle of radius 14 cm:"],["308 cm²","616 cm²","154 cm²","88 cm²"],0,"½ × 22/7 × 196 = 308"],
+    [["7 cm त्रिज्या वाले अर्धवृत्त का परिमाप:","Perimeter of a semicircle of radius 7 cm:"],["36 cm","22 cm","44 cm","29 cm"],0,"πr + 2r = 22 + 14 = 36"],
+    [["वृत्त का व्यास दुगुना करने पर क्षेत्रफल कितने गुना हो जाता है?","If the diameter of a circle is doubled, its area becomes how many times?"],["2","4","8","π"],1,"(2r)² = 4r²"],
+    [["7 cm और 14 cm त्रिज्या वाले संकेन्द्री वृत्तों के बीच के वलय का क्षेत्रफल:","Area of the ring between concentric circles of radii 7 cm and 14 cm:"],["462 cm²","616 cm²","154 cm²","308 cm²"],0,"22/7 × (196 − 49) = 22/7 × 147 = 462"],
+    [["35 cm त्रिज्या वाला पहिया एक चक्कर में कितनी दूरी तय करता है?","How far does a wheel of radius 35 cm travel in one revolution?"],["220 cm","110 cm","440 cm","3850 cm"],0,"2 × 22/7 × 35 = 220"],
+    [["जिस वृत्त की परिधि 44 cm है, उसका क्षेत्रफल:","Area of a circle whose circumference is 44 cm:"],["154 cm²","44 cm²","616 cm²","308 cm²"],0,"2πr = 44 ⇒ r = 7 ⇒ 22/7 × 49 = 154"]
    ]},
  { t:["पृष्ठीय क्षेत्रफल और आयतन","Surface Areas and Volumes"],
    n:[
@@ -249,7 +313,13 @@ const CH = [
     [["समान आधार और ऊँचाई वाले शंकु और बेलन के आयतनों का अनुपात:","Ratio of volumes of a cone and a cylinder with the same base and height:"],["1 : 3","3 : 1","1 : 2","2 : 3"],0,"⅓πr²h : πr²h = 1 : 3"],
     [["7 cm त्रिज्या वाले गोले का पृष्ठीय क्षेत्रफल:","Surface area of a sphere of radius 7 cm:"],["616 cm²","154 cm²","1437 cm²","308 cm²"],0,"4 × 22/7 × 49 = 616"],
     [["r त्रिज्या वाले अर्धगोले का कुल पृष्ठीय क्षेत्रफल:","Total surface area of a hemisphere of radius r:"],["2πr²","3πr²","4πr²","πr²"],1,"2πr² + πr² = 3πr²"],
-    [["गोले की त्रिज्या दुगुनी करने पर आयतन कितने गुना हो जाता है?","If the radius of a sphere is doubled, its volume becomes how many times?"],["2","4","8","6"],2,"2³ = 8"]
+    [["गोले की त्रिज्या दुगुनी करने पर आयतन कितने गुना हो जाता है?","If the radius of a sphere is doubled, its volume becomes how many times?"],["2","4","8","6"],2,"2³ = 8"],
+    [["r = 7 cm, h = 10 cm वाले बेलन का वक्र पृष्ठीय क्षेत्रफल:","Curved surface area of a cylinder with r = 7 cm, h = 10 cm:"],["440 cm²","1540 cm²","748 cm²","220 cm²"],0,"2 × 22/7 × 7 × 10 = 440"],
+    [["21 cm त्रिज्या वाले अर्धगोले का आयतन:","Volume of a hemisphere of radius 21 cm:"],["19404 cm³","38808 cm³","9702 cm³","2772 cm³"],0,"2/3 × 22/7 × 21³ = 19404"],
+    [["5 cm किनारे वाले घन का कुल पृष्ठीय क्षेत्रफल:","Total surface area of a cube of edge 5 cm:"],["150 cm²","125 cm²","100 cm²","25 cm²"],0,"6 × 25 = 150"],
+    [["r = 7 cm, l = 10 cm वाले शंकु का वक्र पृष्ठीय क्षेत्रफल:","Curved surface area of a cone with r = 7 cm, l = 10 cm:"],["220 cm²","440 cm²","154 cm²","374 cm²"],0,"22/7 × 7 × 10 = 220"],
+    [["3 cm त्रिज्या वाले गोले का आयतन:","Volume of a sphere of radius 3 cm:"],["36π cm³","27π cm³","12π cm³","9π cm³"],0,"4/3 × π × 27 = 36π"],
+    [["6 cm किनारे वाले घन से 2 cm किनारे वाले कितने घन बनेंगे?","How many cubes of edge 2 cm can be made from a cube of edge 6 cm?"],["27","3","9","54"],0,"6³ / 2³ = 216/8 = 27"]
    ]},
  { t:["सांख्यिकी","Statistics"],
    n:[
@@ -266,7 +336,13 @@ const CH = [
     [["3, 5, 5, 7, 5, 8, 3 का बहुलक:","Mode of 3, 5, 5, 7, 5, 8, 3:"],["3","5","7","8"],1,["5 सबसे अधिक बार (3 बार)","5 occurs most often (3 times)"]],
     [["1, 3, 5, 7, 9, 11 का माध्यक:","Median of 1, 3, 5, 7, 9, 11:"],["5","6","7","36"],1,"(5 + 7)/2 = 6"],
     [["यदि माध्य = 20 और माध्यक = 22, तो बहुलक =","If mean = 20 and median = 22, then mode ="],["24","26","18","22"],1,"3 × 22 − 2 × 20 = 26"],
-    [["वर्ग 10–20 का वर्ग चिह्न:","Class mark of the class 10–20:"],["10","15","20","30"],1,"(10 + 20)/2 = 15"]
+    [["वर्ग 10–20 का वर्ग चिह्न:","Class mark of the class 10–20:"],["10","15","20","30"],1,"(10 + 20)/2 = 15"],
+    [["प्रथम 5 प्राकृत संख्याओं का माध्य:","Mean of the first 5 natural numbers:"],["3","2.5","15","5"],0,"15 / 5 = 3"],
+    [["यदि x, x + 2, x + 4 का माध्य 9 है, तो x =","If the mean of x, x + 2, x + 4 is 9, then x ="],["7","9","5","3"],0,"(3x + 6)/3 = 9 ⇒ x = 7"],
+    [["'से कम' और 'से अधिक' तोरणों के प्रतिच्छेद बिंदु का x-निर्देशांक देता है:","The x-coordinate of the intersection of the 'less than' and 'more than' ogives gives the:"],[["माध्यक","median"],["माध्य","mean"],["बहुलक","mode"],["परिसर","range"]],0,["दोनों तोरण माध्यक पर मिलते हैं","The two ogives meet at the median"]],
+    [["बहुलक वर्ग वह वर्ग है जिसकी:","The modal class is the class with the:"],[["बारंबारता सबसे अधिक हो","highest frequency"],["बारंबारता सबसे कम हो","lowest frequency"],["संचयी बारंबारता सबसे अधिक हो","highest cumulative frequency"],["वर्ग चिह्न सबसे बड़ा हो","largest class mark"]],0,["बहुलक = सबसे अधिक बार आने वाला मान","Mode = the most frequent value"]],
+    [["माध्यक सूत्र l + [(n/2 − cf)/f] × h में cf है:","In the median formula l + [(n/2 − cf)/f] × h, cf is the:"],[["माध्यक वर्ग से ठीक पहले वाले वर्ग की संचयी बारंबारता","cumulative frequency of the class before the median class"],["माध्यक वर्ग की बारंबारता","frequency of the median class"],["कुल बारंबारता","total frequency"],["वर्ग माप","class width"]],0,["f माध्यक वर्ग की बारंबारता है","f is the frequency of the median class"]],
+    [["2, 3, 7, 9, 11 का माध्यक:","Median of 2, 3, 7, 9, 11:"],["7","3","6.4","9"],0,["विषम संख्या में आँकड़े ⇒ बीच का (तीसरा) पद","Odd number of values ⇒ the middle (3rd) value"]]
    ]},
  { t:["प्रायिकता","Probability"],
    n:[
@@ -284,7 +360,12 @@ const CH = [
     [["52 पत्तों की ताश से इक्का निकलने की प्रायिकता:","Probability of drawing an ace from a 52-card deck:"],["1/52","1/13","1/4","4/13"],1,"4/52 = 1/13"],
     [["दो सिक्के उछालने पर कम से कम एक चित आने की प्रायिकता:","Two coins are tossed. Probability of at least one head:"],["1/4","1/2","3/4","1"],2,"{HH, HT, TH} ⇒ 3/4"],
     [["दो पासे फेंकने पर योग 7 आने की प्रायिकता:","Two dice are thrown. Probability that the sum is 7:"],["1/6","1/36","7/36","1/12"],0,"(1,6)(2,5)(3,4)(4,3)(5,2)(6,1) ⇒ 6/36 = 1/6"],
-    [["निम्न में से कौन किसी घटना की प्रायिकता नहीं हो सकती?","Which of these cannot be the probability of an event?"],["0.7","2/3","1.5","0"],2,["प्रायिकता 1 से अधिक नहीं हो सकती","Probability cannot exceed 1"]]
+    [["निम्न में से कौन किसी घटना की प्रायिकता नहीं हो सकती?","Which of these cannot be the probability of an event?"],["0.7","2/3","1.5","0"],2,["प्रायिकता 1 से अधिक नहीं हो सकती","Probability cannot exceed 1"]],
+    [["पासा फेंकने पर 4 से बड़ी संख्या आने की प्रायिकता:","Probability of a number greater than 4 when a die is thrown:"],["1/3","1/2","2/3","1/6"],0,"{5, 6} ⇒ 2/6 = 1/3"],
+    [["52 पत्तों की ताश से लाल बादशाह निकलने की प्रायिकता:","Probability of drawing a red king from a 52-card deck:"],["1/26","1/13","1/52","1/4"],0,"2/52 = 1/26"],
+    [["थैले में 3 लाल और 5 काली गेंदें हैं। लाल गेंद निकलने की प्रायिकता:","A bag has 3 red and 5 black balls. Probability of drawing a red ball:"],["3/8","5/8","3/5","1/3"],0,"3/(3 + 5) = 3/8"],
+    [["दो पासे फेंकने पर दोनों पर समान संख्या आने की प्रायिकता:","Two dice are thrown. Probability of the same number on both:"],["1/6","1/36","1/3","1/12"],0,"(1,1) … (6,6) ⇒ 6/36 = 1/6"],
+    [["शब्द 'BIHAR' से एक अक्षर चुनने पर स्वर आने की प्रायिकता:","A letter is chosen from the word 'BIHAR'. Probability that it is a vowel:"],["2/5","3/5","1/5","1/2"],0,"I, A ⇒ 2/5"]
    ]}
 ];
 

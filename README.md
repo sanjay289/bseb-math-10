@@ -3,7 +3,7 @@
 Offline Android app for Bihar Board (BSEB) Class 10 maths board-exam practice, in Hindi and English.
 
 - Key formulas and facts for all 14 chapters
-- 96 chapter-wise MCQs with instant feedback and worked steps
+- 177 chapter-wise MCQs with instant feedback and worked steps
 - Timed mixed mock test (25 random questions)
 - Best scores saved on the device
 
