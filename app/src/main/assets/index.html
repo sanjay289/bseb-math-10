@@ -6,9 +6,9 @@
 <title>गणित 10 BSEB</title>
 <style>
   :root { --brand:#1F4E8C; --accent:#1F4E8C; --bg:#F4F6FA; --card:#fff; --ink:#1b1f27; --muted:#5d6675; --line:#d5dbe5; --th:#e8eef8;
-          --ok:#1d7a3a; --ok-bg:#e6f4ea; --bad:#b3261e; --bad-bg:#fce8e6; --explain:#f0f7f2; --done:#1d7a3a; }
+          --ok:#1d7a3a; --ok-bg:#e6f4ea; --bad:#b3261e; --bad-bg:#fce8e6; --explain:#f0f7f2; --done:#1d7a3a; --danger:#b3261e; }
   :root[data-theme="dark"] { --brand:#2E5FA3; --accent:#8AB4F8; --bg:#121418; --card:#1E2128; --ink:#E6E8EC; --muted:#9AA3B2; --line:#3A3F4A; --th:#263042;
-          --ok:#81C995; --ok-bg:#1E3326; --bad:#F28B82; --bad-bg:#3A1F1E; --explain:#1E3326; --done:#2E7D46; color-scheme:dark; }
+          --ok:#81C995; --ok-bg:#1E3326; --bad:#F28B82; --bad-bg:#3A1F1E; --explain:#1E3326; --done:#2E7D46; --danger:#C5372C; color-scheme:dark; }
   * { box-sizing:border-box; }
   body { margin:0; font-family:system-ui, "Noto Sans Devanagari", sans-serif; background:var(--bg); color:var(--ink); font-size:17px; line-height:1.5; }
   header { background:var(--brand); color:#fff; padding:14px 16px; display:flex; align-items:center; gap:10px; position:sticky; top:0; z-index:1; }
@@ -25,6 +25,9 @@
   .grow { flex:1; }
   .prog { height:6px; background:var(--line); border-radius:3px; overflow:hidden; margin-top:6px; }
   .prog i { display:block; height:100%; background:var(--ok); }
+  .link { background:none; border:0; color:var(--bad); font-size:14px; padding:8px 0 0; text-decoration:underline; }
+  .row { display:flex; gap:8px; }
+  .btn.danger { background:var(--danger); }
   .sub { color:var(--muted); font-size:14px; }
   h2 { font-size:20px; margin:4px 0 12px; color:var(--accent); }
   ul.notes { padding-left:20px; margin:0; }
@@ -433,6 +436,25 @@ function record(q) {
 
 const bar = (n, total) => `<div class="prog"><i style="width:${Math.round(100 * n / total)}%"></i></div>`;
 
+// Reset asks for confirmation in the page: WebView without a WebChromeClient ignores confirm().
+let confirmReset = false;
+function askReset(v) { confirmReset = v; render(); }
+
+function resetProgress() {
+  prog = {};
+  try { localStorage.removeItem('progress'); localStorage.removeItem('best'); } catch (e) {}
+  confirmReset = false;
+  render();
+}
+
+function resetUi(hasProgress) {
+  if (confirmReset) {
+    return `<p>${L('सारी प्रगति और सर्वश्रेष्ठ स्कोर मिट जाएँगे। सहेजे गए सूत्र बने रहेंगे। पक्का?','This erases all progress and best scores. Saved formulas are kept. Are you sure?')}</p>`
+      + `<div class="row"><button class="btn danger" onclick="resetProgress()">${L('हाँ, मिटाएँ','Yes, reset')}</button><button class="btn ghost" onclick="askReset(false)">${L('रद्द करें','Cancel')}</button></div>`;
+  }
+  return hasProgress ? `<button class="link" onclick="askReset(true)">${L('प्रगति रीसेट करें','Reset progress')}</button>` : '';
+}
+
 function toggleLang() {
   lang = lang === 'hi' ? 'en' : 'hi';
   try { localStorage.setItem('lang', lang); } catch (e) {}
@@ -465,7 +487,7 @@ function chapterList() {
   const all = CH.reduce((s, c) => s + c.q.length, 0);
   const tot = CH.reduce((s, c, i) => s + solved(i), 0);
   const done = CH.filter((c, i) => solved(i) === c.q.length).length;
-  const summary = `<div class="card"><b>${L('आपकी प्रगति','Your progress')}</b><br><span class="sub">${tot}/${all} ${L('प्रश्न सही हल किए','questions solved')} (${Math.round(100 * tot / all)}%) · ${done}/${CH.length} ${L('अध्याय पूरे','chapters complete')}</span>${bar(tot, all)}</div>`;
+  const summary = `<div class="card"><b>${L('आपकी प्रगति','Your progress')}</b><br><span class="sub">${tot}/${all} ${L('प्रश्न सही हल किए','questions solved')} (${Math.round(100 * tot / all)}%) · ${done}/${CH.length} ${L('अध्याय पूरे','chapters complete')}</span>${bar(tot, all)}${resetUi(tot > 0 || best('mock') !== undefined || CH.some((c, i) => best('c' + i) !== undefined))}</div>`;
   return summary + CH.map((c, i) => {
     const b = best('c' + i), s = solved(i), n = c.q.length;
     const sub = `${s}/${n} ${L('हल','solved')}` + (b !== undefined ? ` · ${L('सर्वश्रेष्ठ','best')} ${b}%` : '');
@@ -646,6 +668,7 @@ function render() {
   else if (r[0] === 'saved') h = savedView();
   else h = home();
   if (r[0] !== 'quiz') quiz = null;
+  if (r[0]) confirmReset = false;
   $('app').innerHTML = h;
 }
 
