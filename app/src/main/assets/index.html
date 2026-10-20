@@ -49,6 +49,7 @@
   .explain { border-left:4px solid var(--ok); padding:8px 12px; background:var(--explain); border-radius:6px; margin-top:6px; }
   #search { width:100%; padding:12px; font-size:17px; border:2px solid var(--line); border-radius:10px; background:var(--card); color:var(--ink); margin-bottom:12px; }
   #search:focus { outline:none; border-color:var(--accent); }
+  #remTime { width:100%; padding:10px; font-size:17px; border:2px solid var(--line); border-radius:10px; background:var(--card); color:var(--ink); margin-top:10px; }
   .big { font-size:44px; font-weight:800; color:var(--accent); text-align:center; margin:10px 0 0; }
 </style>
 </head>
@@ -643,8 +644,35 @@ function mockIntro() {
     + (b !== undefined ? `<p class="sub">${L('सर्वश्रेष्ठ','Best')}: ${b}%</p>` : '') + `</div><a class="btn" href="#/quiz/mock">${L('टेस्ट शुरू करें','Start test')}</a>`;
 }
 
+// Daily reminder card: scheduling and the notification itself are native (Reminder.java).
+const fmtTime = v => { const [h, m] = v.split(':').map(Number); return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`; };
+
+function reminderCard() {
+  if (!(window.Android && Android.getReminder)) return '';
+  const r = Android.getReminder();
+  let h = `<div class="card"><b>🔔 ${L('दैनिक अभ्यास रिमाइंडर','Daily practice reminder')}</b><br>`;
+  h += r
+    ? `<span class="sub">${L(`चालू — रोज़ ${fmtTime(r)} बजे`, `On — every day at ${fmtTime(r)}`)}</span>`
+    : `<span class="sub">${L('रोज़ तय समय पर अभ्यास की याद दिलाने के लिए चालू करें।','Turn on to get a reminder to practise at the same time every day.')}</span>`;
+  if (r && !Android.notificationsAllowed()) {
+    h += `<p style="color:var(--bad)">⚠ ${L('इस ऐप की सूचनाएँ बंद हैं। फ़ोन की Settings → Apps में इस ऐप के लिए Notifications चालू करें।','Notifications are blocked for this app. Turn them on in your phone\'s Settings → Apps.')}</p>`;
+  }
+  h += `<input id="remTime" type="time" value="${r || '19:00'}">`
+    + `<div class="row"><button class="btn" onclick="saveReminder()">${r ? L('समय बदलें','Change time') : L('चालू करें','Turn on')}</button>`
+    + (r ? `<button class="btn ghost" onclick="offReminder()">${L('बंद करें','Turn off')}</button>` : '') + '</div></div>';
+  return h;
+}
+
+function saveReminder() {
+  const [h, m] = ($('remTime').value || '19:00').split(':').map(Number);
+  Android.setReminder(h, m);
+  render();
+}
+
+function offReminder() { Android.cancelReminder(); render(); }
+
 function tipsView() {
-  return tabs('#/tips') + `<div class="card"><b>${L('बोर्ड परीक्षा के लिए सुझाव','Board exam tips')}</b><ul class="notes">`
+  return tabs('#/tips') + reminderCard() + `<div class="card"><b>${L('बोर्ड परीक्षा के लिए सुझाव','Board exam tips')}</b><ul class="notes">`
     + TIPS.map(x => `<li>${esc(T(x))}</li>`).join('') + '</ul></div>'
     + `<p class="sub">${L('यह ऐप NCERT/BSEB कक्षा 10 गणित पाठ्यक्रम पर आधारित अभ्यास के लिए है। आधिकारिक सिलेबस और परीक्षा पैटर्न के लिए biharboardonline.bihar.gov.in देखें।','This app is for practice based on the NCERT/BSEB Class 10 maths syllabus. See biharboardonline.bihar.gov.in for the official syllabus and exam pattern.')}</p>`;
 }
