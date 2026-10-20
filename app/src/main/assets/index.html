@@ -35,6 +35,8 @@
   .opt.wrong { border-color:var(--bad); background:var(--bad-bg); }
   .bar { display:flex; justify-content:space-between; color:var(--muted); font-size:14px; margin-bottom:8px; }
   .explain { border-left:4px solid var(--ok); padding:8px 12px; background:var(--explain); border-radius:6px; margin-top:6px; }
+  #search { width:100%; padding:12px; font-size:17px; border:2px solid var(--line); border-radius:10px; background:var(--card); color:var(--ink); margin-bottom:12px; }
+  #search:focus { outline:none; border-color:var(--accent); }
   .big { font-size:44px; font-weight:800; color:var(--accent); text-align:center; margin:10px 0 0; }
 </style>
 </head>
@@ -394,7 +396,7 @@ try { lang = localStorage.getItem('lang') || 'hi'; } catch (e) {}
 const T = x => Array.isArray(x) ? x[lang === 'hi' ? 0 : 1] : x;
 const L = (hi, en) => lang === 'hi' ? hi : en;
 const $ = id => document.getElementById(id);
-const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
 
 function best(key) { try { return JSON.parse(localStorage.getItem('best') || '{}')[key]; } catch (e) { return undefined; } }
 function saveBest(key, pct) {
@@ -432,12 +434,43 @@ function tabs(on) {
   return '<div class="tabs">' + t.map(([h, s]) => `<a href="${h}" class="${h === on ? 'on' : ''}">${s}</a>`).join('') + '</div>';
 }
 
-function home() {
-  return tabs('#/') + CH.map((c, i) => {
+function chapterList() {
+  return CH.map((c, i) => {
     const b = best('c' + i);
     const sub = `${c.q.length} ${L('प्रश्न','questions')}` + (b !== undefined ? ` · ${L('सर्वश्रेष्ठ','best')} ${b}%` : '');
     return `<a class="card" href="#/ch/${i}"><span class="num">${i + 1}</span><span><b>${esc(T(c.t))}</b><br><span class="sub">${sub}</span></span></a>`;
   }).join('');
+}
+
+// Formula search: matches both languages; superscripts/subscripts and spaces are ignored so "sin2" finds "sin²".
+let query = '';
+const FROM = '²³ⁿᵐ₁₂₃−', TO = '23nm123-';
+const norm = s => s.toLowerCase().replace(/[²³ⁿᵐ₁₂₃−]/g, c => TO[FROM.indexOf(c)]).replace(/\s+/g, '');
+const trigRow = (r, k) => `${r[0]}: ` + TRIG[0].slice(1).map((a, j) => `${a} = ${Array.isArray(r[j + 1]) ? r[j + 1][k] : r[j + 1]}`).join(', ');
+
+function results() {
+  const terms = query.split(/\s+/).map(norm).filter(Boolean);
+  const hits = [];
+  CH.forEach((c, i) => {
+    const notes = c.table ? c.n.concat(TRIG.slice(1).map(r => [trigRow(r, 0), trigRow(r, 1)])) : c.n;
+    notes.forEach(x => {
+      const hay = norm(x[0] + x[1] + c.t[0] + c.t[1]);
+      if (terms.every(t => hay.includes(t))) hits.push([i, x]);
+    });
+  });
+  if (!hits.length) return `<p class="sub">${L('कोई सूत्र नहीं मिला।','No formulas found.')}</p>`;
+  return `<p class="sub">${hits.length} ${L('परिणाम','results')}</p>` + hits.map(([i, x]) =>
+    `<a class="card" href="#/ch/${i}"><span><span class="sub">${i + 1}. ${esc(T(CH[i].t))}</span><br>${esc(T(x))}</span></a>`).join('');
+}
+
+function search(v) {
+  query = v;
+  $('results').innerHTML = query.trim() ? results() : chapterList();
+}
+
+function home() {
+  return tabs('#/') + `<input id="search" type="search" value="${esc(query)}" oninput="search(this.value)" placeholder="${L('🔍 सूत्र खोजें — जैसे sin, क्षेत्रफल, AP','🔍 Search formulas — e.g. sin, area, AP')}">`
+    + `<div id="results">${query.trim() ? results() : chapterList()}</div>`;
 }
 
 function chapter(i) {
