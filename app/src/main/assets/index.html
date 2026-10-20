@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>गणित 10 BSEB</title>
+<style>
+  :root { --blue:#1F4E8C; --bg:#F4F6FA; --card:#fff; --ink:#1b1f27; --muted:#5d6675; --ok:#1d7a3a; --bad:#b3261e; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui, "Noto Sans Devanagari", sans-serif; background:var(--bg); color:var(--ink); font-size:17px; line-height:1.5; }
+  header { background:var(--blue); color:#fff; padding:14px 16px; display:flex; align-items:center; gap:10px; position:sticky; top:0; z-index:1; }
+  header h1 { font-size:19px; margin:0; flex:1; }
+  header button { background:rgba(255,255,255,.18); color:#fff; border:0; border-radius:8px; padding:6px 12px; font-size:15px; }
+  main { padding:14px 16px 40px; max-width:720px; margin:0 auto; }
+  .tabs { display:flex; gap:8px; margin-bottom:14px; }
+  .tabs a { flex:1; text-align:center; padding:10px 4px; border-radius:10px; background:var(--card); color:var(--blue); text-decoration:none; font-weight:600; font-size:15px; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .tabs a.on { background:var(--blue); color:#fff; }
+  .card { background:var(--card); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  a.card { display:flex; align-items:center; gap:12px; color:inherit; text-decoration:none; }
+  .num { background:var(--blue); color:#fff; border-radius:50%; width:34px; height:34px; flex:none; display:flex; align-items:center; justify-content:center; font-weight:700; }
+  .sub { color:var(--muted); font-size:14px; }
+  h2 { font-size:20px; margin:4px 0 12px; color:var(--blue); }
+  ul.notes { padding-left:20px; margin:0; }
+  ul.notes li { margin-bottom:8px; }
+  table { border-collapse:collapse; width:100%; font-size:15px; }
+  td, th { border:1px solid #d5dbe5; padding:6px; text-align:center; }
+  th { background:#e8eef8; }
+  .btn { display:block; width:100%; background:var(--blue); color:#fff; border:0; border-radius:10px; padding:13px; font-size:17px; font-weight:600; margin-top:10px; text-align:center; text-decoration:none; }
+  .btn.ghost { background:var(--card); color:var(--blue); border:2px solid var(--blue); }
+  .opt { display:block; width:100%; text-align:left; background:var(--card); border:2px solid #d5dbe5; border-radius:10px; padding:12px; margin-bottom:8px; font-size:17px; color:var(--ink); }
+  .opt.right { border-color:var(--ok); background:#e6f4ea; }
+  .opt.wrong { border-color:var(--bad); background:#fce8e6; }
+  .bar { display:flex; justify-content:space-between; color:var(--muted); font-size:14px; margin-bottom:8px; }
+  .explain { border-left:4px solid var(--ok); padding:8px 12px; background:#f0f7f2; border-radius:6px; margin-top:6px; }
+  .big { font-size:44px; font-weight:800; color:var(--blue); text-align:center; margin:10px 0 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title"></h1>
+  <button onclick="toggleLang()" id="langBtn"></button>
+</header>
+<main id="app"></main>
+
+<script>
+// Every user-visible string is either plain (same in both languages) or [hindi, english].
+const CH = [
+ { t:["वास्तविक संख्याएँ","Real Numbers"],
+   n:[
+    ["अंकगणित की आधारभूत प्रमेय: प्रत्येक भाज्य संख्या को अभाज्य संख्याओं के गुणनफल के रूप में अद्वितीय रूप से लिखा जा सकता है।","Fundamental Theorem of Arithmetic: every composite number can be written as a product of primes in a unique way."],
+    ["यूक्लिड विभाजन प्रमेयिका: a = bq + r, जहाँ 0 ≤ r < b","Euclid's division lemma: a = bq + r, where 0 ≤ r < b"],
+    ["दो संख्याओं के लिए: HCF × LCM = पहली संख्या × दूसरी संख्या","For two numbers: HCF × LCM = product of the two numbers"],
+    ["HCF = उभयनिष्ठ अभाज्य गुणनखंडों की सबसे छोटी घातों का गुणनफल; LCM = सभी अभाज्य गुणनखंडों की सबसे बड़ी घातों का गुणनफल","HCF = product of smallest powers of common prime factors; LCM = product of greatest powers of all prime factors"],
+    ["√2, √3, √5 (√p, p अभाज्य) अपरिमेय हैं। परिमेय + अपरिमेय = अपरिमेय","√2, √3, √5 (√p, p prime) are irrational. Rational + irrational = irrational"],
+    ["p/q (सरलतम रूप) का दशमलव सांत होगा यदि q = 2ᵐ × 5ⁿ हो, अन्यथा असांत आवर्ती","p/q (lowest terms) has a terminating decimal if q = 2ᵐ × 5ⁿ, otherwise non-terminating repeating"]
+   ],
+   q:[
+    [["12 और 18 का HCF है:","HCF of 12 and 18 is:"],["2","3","6","36"],2,"12 = 2²×3, 18 = 2×3² ⇒ HCF = 2×3 = 6"],
+    [["यदि HCF(a, b) = 9 और a × b = 1620, तो LCM(a, b) =","If HCF(a, b) = 9 and a × b = 1620, then LCM(a, b) ="],["90","180","162","18"],1,"LCM = 1620 ÷ 9 = 180"],
+    [["निम्न में से अपरिमेय संख्या है:","Which of these is irrational?"],["√9","0.25","√5","3/7"],2,"√9 = 3 परिमेय है; √5 अपरिमेय है / √9 = 3 is rational; √5 is irrational"],
+    [["13/125 का दशमलव प्रसार है:","The decimal expansion of 13/125 is:"],[["सांत","terminating"],["असांत आवर्ती","non-terminating repeating"],["असांत अनावर्ती","non-terminating non-repeating"],["इनमें से कोई नहीं","none of these"]],0,"125 = 5³ = 2⁰ × 5³ ⇒ 13/125 = 0.104"],
+    [["156 का अभाज्य गुणनखंड है:","Prime factorisation of 156 is:"],["2 × 3 × 13","2² × 3 × 13","2² × 3² × 13","2³ × 13"],1,"156 = 4 × 39 = 2² × 3 × 13"],
+    [["6 और 20 का LCM है:","LCM of 6 and 20 is:"],["120","60","30","2"],1,"6 = 2×3, 20 = 2²×5 ⇒ LCM = 2²×3×5 = 60"],
+    [["सबसे छोटी अभाज्य और सबसे छोटी भाज्य संख्या का LCM है:","LCM of the smallest prime and the smallest composite number is:"],["2","4","8","6"],1,"2 और 4 ⇒ LCM = 4 / 2 and 4 ⇒ LCM = 4"]
+   ]},
+ { t:["बहुपद","Polynomials"],
+   n:[
+    ["द्विघात ax² + bx + c के शून्यक α, β: α + β = −b/a, αβ = c/a","For ax² + bx + c with zeros α, β: α + β = −b/a, αβ = c/a"],
+    ["त्रिघात ax³ + bx² + cx + d: α+β+γ = −b/a, αβ+βγ+γα = c/a, αβγ = −d/a","Cubic ax³ + bx² + cx + d: α+β+γ = −b/a, αβ+βγ+γα = c/a, αβγ = −d/a"],
+    ["शून्यकों का योग S और गुणनफल P हो तो बहुपद: k(x² − Sx + P)","Polynomial with zeros' sum S and product P: k(x² − Sx + P)"],
+    ["n घात के बहुपद के अधिकतम n शून्यक होते हैं","A polynomial of degree n has at most n zeros"],
+    ["शून्यकों की संख्या = ग्राफ द्वारा x-अक्ष को काटने वाले बिंदुओं की संख्या","Number of zeros = number of points where the graph meets the x-axis"]
+   ],
+   q:[
+    [["x² − 5x + 6 के शून्यक हैं:","Zeros of x² − 5x + 6 are:"],["2, 3","−2, −3","1, 6","−1, 6"],0,"x² − 5x + 6 = (x − 2)(x − 3)"],
+    [["2x² − 8x + 5 के शून्यकों का योग है:","Sum of zeros of 2x² − 8x + 5 is:"],["−4","4","5/2","−5/2"],1,"α + β = −b/a = 8/2 = 4"],
+    [["3x² + 5x − 2 के शून्यकों का गुणनफल है:","Product of zeros of 3x² + 5x − 2 is:"],["2/3","−2/3","5/3","−5/3"],1,"αβ = c/a = −2/3"],
+    [["वह द्विघात बहुपद जिसके शून्यकों का योग 3 और गुणनफल 2 है:","Quadratic polynomial with sum of zeros 3 and product 2:"],["x² + 3x + 2","x² − 3x + 2","x² − 2x + 3","x² + 2x − 3"],1,"x² − Sx + P = x² − 3x + 2"],
+    [["त्रिघात बहुपद के अधिकतम शून्यक होते हैं:","Maximum number of zeros of a cubic polynomial:"],["1","2","3","4"],2,["घात 3 ⇒ अधिकतम 3 शून्यक","Degree 3 ⇒ at most 3 zeros"]],
+    [["यदि x² + kx − 6 का एक शून्यक 2 है, तो k =","If 2 is a zero of x² + kx − 6, then k ="],["1","−1","2","3"],0,"4 + 2k − 6 = 0 ⇒ k = 1"],
+    [["शून्य बहुपद की घात होती है:","Degree of the zero polynomial is:"],["0","1",["परिभाषित नहीं","not defined"],"−1"],2,["शून्य बहुपद की घात परिभाषित नहीं है","The degree of the zero polynomial is not defined"]]
+   ]},
+ { t:["दो चरों वाले रैखिक समीकरणों का युग्म","Pair of Linear Equations in Two Variables"],
+   n:[
+    ["a₁x + b₁y + c₁ = 0 और a₂x + b₂y + c₂ = 0","a₁x + b₁y + c₁ = 0 and a₂x + b₂y + c₂ = 0"],
+    ["a₁/a₂ ≠ b₁/b₂ ⇒ अद्वितीय हल (प्रतिच्छेदी रेखाएँ, संगत)","a₁/a₂ ≠ b₁/b₂ ⇒ unique solution (intersecting lines, consistent)"],
+    ["a₁/a₂ = b₁/b₂ ≠ c₁/c₂ ⇒ कोई हल नहीं (समांतर रेखाएँ, असंगत)","a₁/a₂ = b₁/b₂ ≠ c₁/c₂ ⇒ no solution (parallel lines, inconsistent)"],
+    ["a₁/a₂ = b₁/b₂ = c₁/c₂ ⇒ अनंत हल (संपाती रेखाएँ)","a₁/a₂ = b₁/b₂ = c₁/c₂ ⇒ infinitely many solutions (coincident lines)"],
+    ["हल की विधियाँ: प्रतिस्थापन, विलोपन, वज्र-गुणन","Methods: substitution, elimination, cross-multiplication"]
+   ],
+   q:[
+    [["x + y = 5 और x − y = 1 का हल है:","Solution of x + y = 5 and x − y = 1:"],["x = 3, y = 2","x = 2, y = 3","x = 4, y = 1","x = 1, y = 4"],0,"जोड़ने पर / adding: 2x = 6 ⇒ x = 3, y = 2"],
+    [["2x + 3y = 5 और 4x + 6y = 10 के कितने हल हैं?","How many solutions do 2x + 3y = 5 and 4x + 6y = 10 have?"],[["अद्वितीय","unique"],["कोई नहीं","none"],["अनंत","infinitely many"],["ठीक दो","exactly two"]],2,"2/4 = 3/6 = 5/10 = 1/2"],
+    [["x + 2y = 4 और 2x + 4y = 12 से बनी रेखाएँ हैं:","Lines x + 2y = 4 and 2x + 4y = 12 are:"],[["प्रतिच्छेदी","intersecting"],["समांतर","parallel"],["संपाती","coincident"],["लंबवत","perpendicular"]],1,"1/2 = 2/4 ≠ 4/12"],
+    [["k के किस मान के लिए kx + 3y = 3 और 12x + ky = 6 का कोई हल नहीं है?","For which k do kx + 3y = 3 and 12x + ky = 6 have no solution?"],["6","−6","±6","0"],1,"k/12 = 3/k ⇒ k = ±6; k = 6 पर अनंत हल, अतः k = −6 / k = 6 gives infinitely many, so k = −6"],
+    [["यदि x = 2, y = 1 समीकरण 2x + 3y = k का हल है, तो k =","If x = 2, y = 1 is a solution of 2x + 3y = k, then k ="],["5","6","7","8"],2,"2(2) + 3(1) = 7"],
+    [["दो संख्याओं का योग 20 और अंतर 4 है। संख्याएँ हैं:","Two numbers have sum 20 and difference 4. The numbers are:"],["12, 8","14, 6","10, 10","16, 4"],0,"x + y = 20, x − y = 4 ⇒ x = 12, y = 8"],
+    [["x = 3 का ग्राफ होता है:","The graph of x = 3 is a line:"],[["x-अक्ष के समांतर","parallel to the x-axis"],["y-अक्ष के समांतर","parallel to the y-axis"],["मूल बिंदु से गुजरती","through the origin"],["x-अक्ष स्वयं","the x-axis itself"]],1,["x = 3 पर सभी बिंदु (3, y) हैं — ऊर्ध्वाधर रेखा","All points are (3, y) — a vertical line"]]
+   ]},
+ { t:["द्विघात समीकरण","Quadratic Equations"],
+   n:[
+    ["मानक रूप: ax² + bx + c = 0, a ≠ 0","Standard form: ax² + bx + c = 0, a ≠ 0"],
+    ["द्विघाती सूत्र: x = [−b ± √(b² − 4ac)] / 2a","Quadratic formula: x = [−b ± √(b² − 4ac)] / 2a"],
+    ["विविक्तकर D = b² − 4ac","Discriminant D = b² − 4ac"],
+    ["D > 0: दो भिन्न वास्तविक मूल; D = 0: दो बराबर मूल (−b/2a); D < 0: कोई वास्तविक मूल नहीं","D > 0: two distinct real roots; D = 0: two equal roots (−b/2a); D < 0: no real roots"],
+    ["मूलों का योग = −b/a, गुणनफल = c/a","Sum of roots = −b/a, product = c/a"]
+   ],
+   q:[
+    [["x² − 9 = 0 के मूल हैं:","Roots of x² − 9 = 0 are:"],[["केवल 3","3 only"],"±3","9","±9"],1,"x² = 9 ⇒ x = ±3"],
+    [["2x² − 4x + 3 = 0 का विविक्तकर है:","Discriminant of 2x² − 4x + 3 = 0 is:"],["8","−8","40","−40"],1,"D = 16 − 24 = −8"],
+    [["x² − 4x + 4 = 0 के मूलों की प्रकृति:","Nature of roots of x² − 4x + 4 = 0:"],[["भिन्न वास्तविक","distinct real"],["बराबर वास्तविक","equal real"],["वास्तविक नहीं","not real"],["कह नहीं सकते","cannot say"]],1,"D = 16 − 16 = 0"],
+    [["k के किस मान के लिए x² + kx + 9 = 0 के मूल बराबर हैं?","For which k does x² + kx + 9 = 0 have equal roots?"],["3","±3","±6","9"],2,"k² − 36 = 0 ⇒ k = ±6"],
+    [["निम्न में से द्विघात समीकरण है:","Which of these is a quadratic equation?"],["2x + 3 = 0","x² − 3x + 2 = 0","x³ + x = 1","√x + 2 = 0"],1,["x की उच्चतम घात 2","Highest power of x is 2"]],
+    [["2x² − 7x + 3 = 0 के मूल हैं:","Roots of 2x² − 7x + 3 = 0 are:"],["3, 1/2","−3, −1/2","3, −1/2","1, 3/2"],0,"(2x − 1)(x − 3) = 0"],
+    [["यदि x² − 6x + k = 0 का एक मूल 2 है, तो k =","If 2 is a root of x² − 6x + k = 0, then k ="],["4","6","8","12"],2,"4 − 12 + k = 0 ⇒ k = 8"]
+   ]},
+ { t:["समांतर श्रेढ़ी","Arithmetic Progressions"],
+   n:[
+    ["प्रथम पद a, सार्व अंतर d","First term a, common difference d"],
+    ["n वाँ पद: aₙ = a + (n − 1)d","nth term: aₙ = a + (n − 1)d"],
+    ["n पदों का योग: Sₙ = n/2 [2a + (n − 1)d] = n/2 (a + l)","Sum of n terms: Sₙ = n/2 [2a + (n − 1)d] = n/2 (a + l)"],
+    ["aₙ = Sₙ − Sₙ₋₁","aₙ = Sₙ − Sₙ₋₁"],
+    ["यदि a, b, c समांतर श्रेढ़ी में हैं तो 2b = a + c","If a, b, c are in AP then 2b = a + c"],
+    ["प्रथम n प्राकृत संख्याओं का योग = n(n + 1)/2; प्रथम n विषम संख्याओं का योग = n²","Sum of first n natural numbers = n(n + 1)/2; sum of first n odd numbers = n²"]
+   ],
+   q:[
+    [["3, 7, 11, 15, … का सार्व अंतर है:","Common difference of 3, 7, 11, 15, … is:"],["3","4","−4","7"],1,"7 − 3 = 4"],
+    [["2, 7, 12, … का 10वाँ पद है:","10th term of 2, 7, 12, … is:"],["45","47","52","50"],1,"a₁₀ = 2 + 9 × 5 = 47"],
+    [["प्रथम 20 प्राकृत संख्याओं का योग है:","Sum of first 20 natural numbers:"],["200","210","220","190"],1,"20 × 21 / 2 = 210"],
+    [["3, 8, 13, … का कौन-सा पद 78 है?","Which term of 3, 8, 13, … is 78?"],["15","16","17","14"],1,"3 + (n − 1)5 = 78 ⇒ n = 16"],
+    [["यदि 2k − 1, 7, 3k समांतर श्रेढ़ी में हैं, तो k =","If 2k − 1, 7, 3k are in AP, then k ="],["2","3","4","5"],1,"2 × 7 = (2k − 1) + 3k ⇒ 5k = 15 ⇒ k = 3"],
+    [["1, 3, 5, … के प्रथम 10 पदों का योग है:","Sum of first 10 terms of 1, 3, 5, … is:"],["100","90","110","55"],0,"n² = 10² = 100"],
+    [["यदि n वाँ पद 3n + 2 है, तो सार्व अंतर है:","If the nth term is 3n + 2, the common difference is:"],["2","3","5","−3"],1,"aₙ₊₁ − aₙ = 3"]
+   ]},
+ { t:["त्रिभुज","Triangles"],
+   n:[
+    ["आधारभूत समानुपातिकता प्रमेय (थेल्स): DE ∥ BC ⇒ AD/DB = AE/EC (और इसका विलोम)","Basic Proportionality Theorem (Thales): DE ∥ BC ⇒ AD/DB = AE/EC (and its converse)"],
+    ["समरूपता की कसौटियाँ: AAA (AA), SSS, SAS","Similarity criteria: AAA (AA), SSS, SAS"],
+    ["समरूप त्रिभुजों के क्षेत्रफलों का अनुपात = संगत भुजाओं के अनुपात का वर्ग","Ratio of areas of similar triangles = square of ratio of corresponding sides"],
+    ["पाइथागोरस प्रमेय: कर्ण² = लंब² + आधार²","Pythagoras theorem: hypotenuse² = perpendicular² + base²"],
+    ["सभी वृत्त, सभी वर्ग और सभी समबाहु त्रिभुज समरूप होते हैं","All circles, all squares and all equilateral triangles are similar"]
+   ],
+   q:[
+    [["△ABC में DE ∥ BC, AD = 2, DB = 3, AE = 4 तो EC =","In △ABC, DE ∥ BC, AD = 2, DB = 3, AE = 4. Then EC ="],["5","6","8","3"],1,"2/3 = 4/EC ⇒ EC = 6"],
+    [["कौन-सी भुजाएँ समकोण त्रिभुज बनाती हैं?","Which sides form a right triangle?"],["3, 4, 5","2, 3, 4","5, 6, 7","4, 5, 6"],0,"3² + 4² = 9 + 16 = 25 = 5²"],
+    [["दो समरूप त्रिभुजों की भुजाओं का अनुपात 2 : 3 है। क्षेत्रफलों का अनुपात:","Sides of two similar triangles are in ratio 2 : 3. Ratio of areas:"],["2 : 3","4 : 9","8 : 27","3 : 2"],1,"(2/3)² = 4/9"],
+    [["निम्न में से कौन सदैव समरूप होते हैं?","Which of these are always similar?"],[["दो समद्विबाहु त्रिभुज","two isosceles triangles"],["दो आयत","two rectangles"],["दो समबाहु त्रिभुज","two equilateral triangles"],["दो समचतुर्भुज","two rhombuses"]],2,["समबाहु त्रिभुज के सभी कोण 60° होते हैं","All angles of an equilateral triangle are 60°"]],
+    [["△ABC ~ △PQR, ∠A = 50°, ∠B = 60° तो ∠R =","△ABC ~ △PQR, ∠A = 50°, ∠B = 60°. Then ∠R ="],["50°","60°","70°","80°"],2,"∠R = ∠C = 180° − 50° − 60° = 70°"],
+    [["10 m लंबी सीढ़ी का पाद दीवार से 6 m दूर है। सीढ़ी दीवार पर कितनी ऊँचाई तक पहुँचती है?","A 10 m ladder has its foot 6 m from a wall. How high up the wall does it reach?"],["6 m","8 m","4 m","12 m"],1,"√(10² − 6²) = √64 = 8"],
+    [["भुजा a वाले वर्ग का विकर्ण:","Diagonal of a square of side a:"],["a√2","2a","a√3","a/√2"],0,"√(a² + a²) = a√2"]
+   ]},
+ { t:["निर्देशांक ज्यामिति","Coordinate Geometry"],
+   n:[
+    ["दूरी सूत्र: √[(x₂ − x₁)² + (y₂ − y₁)²]; मूल बिंदु से: √(x² + y²)","Distance formula: √[(x₂ − x₁)² + (y₂ − y₁)²]; from origin: √(x² + y²)"],
+    ["विभाजन सूत्र (m : n): ((mx₂ + nx₁)/(m + n), (my₂ + ny₁)/(m + n))","Section formula (m : n): ((mx₂ + nx₁)/(m + n), (my₂ + ny₁)/(m + n))"],
+    ["मध्य बिंदु: ((x₁ + x₂)/2, (y₁ + y₂)/2)","Midpoint: ((x₁ + x₂)/2, (y₁ + y₂)/2)"],
+    ["केन्द्रक: ((x₁ + x₂ + x₃)/3, (y₁ + y₂ + y₃)/3)","Centroid: ((x₁ + x₂ + x₃)/3, (y₁ + y₂ + y₃)/3)"],
+    ["त्रिभुज का क्षेत्रफल = ½ |x₁(y₂ − y₃) + x₂(y₃ − y₁) + x₃(y₁ − y₂)|; क्षेत्रफल 0 ⇒ बिंदु संरेख","Area of triangle = ½ |x₁(y₂ − y₃) + x₂(y₃ − y₁) + x₃(y₁ − y₂)|; area 0 ⇒ points collinear"],
+    ["x-अक्ष पर बिंदु (x, 0); y-अक्ष पर बिंदु (0, y)","Point on x-axis: (x, 0); on y-axis: (0, y)"]
+   ],
+   q:[
+    [["(0, 0) और (3, 4) के बीच की दूरी:","Distance between (0, 0) and (3, 4):"],["5","7","25","√7"],0,"√(9 + 16) = 5"],
+    [["(2, 4) और (6, 8) का मध्य बिंदु:","Midpoint of (2, 4) and (6, 8):"],["(4, 6)","(8, 12)","(2, 2)","(3, 5)"],0,"((2 + 6)/2, (4 + 8)/2) = (4, 6)"],
+    [["(2, 3) और (5, 7) के बीच की दूरी:","Distance between (2, 3) and (5, 7):"],["4","5","7","25"],1,"√(3² + 4²) = 5"],
+    [["(−1, 7) और (4, −3) को 2 : 3 में अंतःविभाजित करने वाला बिंदु:","Point dividing (−1, 7) and (4, −3) internally in 2 : 3:"],["(1, 3)","(3, 1)","(2, 3)","(1, −3)"],0,"x = (8 − 3)/5 = 1, y = (−6 + 21)/5 = 3"],
+    [["x-अक्ष पर स्थित बिंदु का रूप होता है:","A point on the x-axis has the form:"],["(0, y)","(x, 0)","(x, x)","(y, x)"],1,["x-अक्ष पर y = 0","On the x-axis, y = 0"]],
+    [["(1, 2), (3, 4), (5, 0) वाले त्रिभुज का केन्द्रक:","Centroid of the triangle with vertices (1, 2), (3, 4), (5, 0):"],["(3, 2)","(9, 6)","(2, 3)","(3, 3)"],0,"((1 + 3 + 5)/3, (2 + 4 + 0)/3) = (3, 2)"],
+    [["बिंदु (−6, 8) की मूल बिंदु से दूरी:","Distance of (−6, 8) from the origin:"],["6","8","10","14"],2,"√(36 + 64) = 10"]
+   ]},
+ { t:["त्रिकोणमिति का परिचय","Introduction to Trigonometry"],
+   n:[
+    ["sin θ = लंब/कर्ण, cos θ = आधार/कर्ण, tan θ = लंब/आधार","sin θ = perpendicular/hypotenuse, cos θ = base/hypotenuse, tan θ = perpendicular/base"],
+    ["cosec θ = 1/sin θ, sec θ = 1/cos θ, cot θ = 1/tan θ, tan θ = sin θ/cos θ","cosec θ = 1/sin θ, sec θ = 1/cos θ, cot θ = 1/tan θ, tan θ = sin θ/cos θ"],
+    ["सर्वसमिकाएँ: sin²θ + cos²θ = 1, 1 + tan²θ = sec²θ, 1 + cot²θ = cosec²θ","Identities: sin²θ + cos²θ = 1, 1 + tan²θ = sec²θ, 1 + cot²θ = cosec²θ"],
+    ["पूरक कोण: sin(90° − θ) = cos θ, tan(90° − θ) = cot θ, sec(90° − θ) = cosec θ","Complementary angles: sin(90° − θ) = cos θ, tan(90° − θ) = cot θ, sec(90° − θ) = cosec θ"]
+   ],
+   table:true,
+   q:[
+    [["sin 30° का मान:","Value of sin 30°:"],["1/2","√3/2","1","1/√2"],0,"sin 30° = 1/2"],
+    [["sin²θ + cos²θ =","sin²θ + cos²θ ="],["0","1","2","tan θ"],1,["मूल सर्वसमिका","Basic identity"]],
+    [["tan 45° का मान:","Value of tan 45°:"],["0","1","√3","1/√3"],1,"tan 45° = 1"],
+    [["यदि sin A = 3/5, तो cos A =","If sin A = 3/5, then cos A ="],["4/5","3/4","5/4","4/3"],0,"cos A = √(1 − 9/25) = 4/5"],
+    [["sec²θ − tan²θ =","sec²θ − tan²θ ="],["0","1","−1","2"],1,"1 + tan²θ = sec²θ"],
+    [["2 sin 30° cos 30° =","2 sin 30° cos 30° ="],["sin 60°","cos 60°","tan 60°","sin 30°"],0,"2 × 1/2 × √3/2 = √3/2 = sin 60°"],
+    [["sin 60° cos 30° + cos 60° sin 30° =","sin 60° cos 30° + cos 60° sin 30° ="],["0","1","1/2","√3"],1,"3/4 + 1/4 = 1"],
+    [["sin 50°/cos 40° =","sin 50°/cos 40° ="],["0","1","√3","1/2"],1,"sin 50° = cos(90° − 50°) = cos 40°"]
+   ]},
+ { t:["त्रिकोणमिति के कुछ अनुप्रयोग","Some Applications of Trigonometry"],
+   n:[
+    ["उन्नयन कोण: आँख से ऊपर की वस्तु को देखने पर क्षैतिज से बना कोण","Angle of elevation: angle above the horizontal when looking up at an object"],
+    ["अवनमन कोण: आँख से नीचे की वस्तु को देखने पर क्षैतिज से बना कोण","Angle of depression: angle below the horizontal when looking down at an object"],
+    ["उन्नयन कोण = अवनमन कोण (एकांतर कोण)","Angle of elevation = angle of depression (alternate angles)"],
+    ["tan θ = ऊँचाई / दूरी — अधिकतर प्रश्न इसी से हल होते हैं","tan θ = height / distance — solves most questions"],
+    ["tan 30° = 1/√3, tan 60° = √3, √3 ≈ 1.732","tan 30° = 1/√3, tan 60° = √3, √3 ≈ 1.732"]
+   ],
+   q:[
+    [["यदि मीनार की छाया उसकी ऊँचाई के बराबर है, तो सूर्य का उन्नयन कोण है:","If a tower's shadow equals its height, the sun's angle of elevation is:"],["30°","45°","60°","90°"],1,"tan θ = h/h = 1 ⇒ θ = 45°"],
+    [["मीनार से 10 m दूर बिंदु से शिखर का उन्नयन कोण 60° है। मीनार की ऊँचाई:","From a point 10 m from a tower the elevation of its top is 60°. Height of the tower:"],["10 m","10√3 m","10/√3 m","20 m"],1,"h = 10 tan 60° = 10√3"],
+    [["100 m लंबी पतंग की डोरी क्षैतिज से 30° का कोण बनाती है। पतंग की ऊँचाई:","A 100 m kite string makes 30° with the ground. Height of the kite:"],["50 m","50√3 m","100 m","100/√3 m"],0,"h = 100 sin 30° = 50"],
+    [["यदि छाया की लंबाई ऊँचाई की √3 गुनी है, तो उन्नयन कोण:","If the shadow is √3 times the height, the angle of elevation is:"],["30°","45°","60°","90°"],0,"tan θ = h/(√3h) = 1/√3 ⇒ θ = 30°"],
+    [["75 m ऊँचे प्रकाश-स्तंभ से जहाज का अवनमन कोण 30° है। जहाज की दूरी:","From a 75 m lighthouse, the depression of a ship is 30°. Distance of the ship:"],["75 m","75√3 m","25√3 m","150 m"],1,"d = 75 / tan 30° = 75√3"],
+    [["मीनार की ओर बढ़ने पर उसके शिखर का उन्नयन कोण:","Moving towards a tower, the angle of elevation of its top:"],[["बढ़ता है","increases"],["घटता है","decreases"],["समान रहता है","stays the same"],["शून्य हो जाता है","becomes zero"]],0,["दूरी घटती है ⇒ tan θ बढ़ता है","Distance decreases ⇒ tan θ increases"]]
+   ]},
+ { t:["वृत्त","Circles"],
+   n:[
+    ["स्पर्श बिंदु पर स्पर्श रेखा त्रिज्या पर लंब होती है","The tangent at any point is perpendicular to the radius at that point"],
+    ["वृत्त के किसी बिंदु पर केवल एक स्पर्श रेखा होती है","Only one tangent at a point on the circle"],
+    ["बाह्य बिंदु से ठीक दो स्पर्श रेखाएँ, जिनकी लंबाइयाँ बराबर होती हैं","Exactly two tangents from an external point, and they are equal in length"],
+    ["अंतः बिंदु से कोई स्पर्श रेखा नहीं","No tangent from a point inside the circle"],
+    ["स्पर्श रेखा की लंबाई = √(d² − r²), d = केन्द्र से बिंदु की दूरी","Tangent length = √(d² − r²), d = distance of point from centre"],
+    ["दो स्पर्श रेखाओं के बीच का कोण + केन्द्र पर बना कोण = 180°","Angle between two tangents + angle at the centre = 180°"]
+   ],
+   q:[
+    [["स्पर्श बिंदु पर स्पर्श रेखा और त्रिज्या के बीच का कोण:","Angle between tangent and radius at the point of contact:"],["60°","90°","180°","45°"],1,["प्रमेय: स्पर्श रेखा ⟂ त्रिज्या","Theorem: tangent ⟂ radius"]],
+    [["केन्द्र से 5 cm दूर बिंदु से 3 cm त्रिज्या वाले वृत्त पर स्पर्श रेखा की लंबाई:","Tangent length from a point 5 cm from the centre of a circle of radius 3 cm:"],["3 cm","4 cm","5 cm","8 cm"],1,"√(25 − 9) = 4"],
+    [["बाह्य बिंदु से वृत्त पर कितनी स्पर्श रेखाएँ खींची जा सकती हैं?","How many tangents can be drawn from an external point?"],["1","2","0",["अनंत","infinitely many"]],1,["ठीक दो","Exactly two"]],
+    [["वृत्त के अंदर स्थित बिंदु से कितनी स्पर्श रेखाएँ?","How many tangents from a point inside the circle?"],["0","1","2",["अनंत","infinitely many"]],0,["अंतः बिंदु से कोई स्पर्श रेखा नहीं","None from an interior point"]],
+    [["बिंदु P से स्पर्श रेखाएँ PA, PB के बीच का कोण 80° है। ∠AOB =","Tangents PA, PB from P make an angle of 80°. ∠AOB ="],["80°","100°","50°","90°"],1,"180° − 80° = 100°"],
+    [["4 cm त्रिज्या वाले वृत्त की दो समांतर स्पर्श रेखाओं के बीच की दूरी:","Distance between two parallel tangents of a circle of radius 4 cm:"],["4 cm","8 cm","16 cm","2 cm"],1,["व्यास = 2 × 4 = 8","Diameter = 2 × 4 = 8"]]
+   ]},
+ { t:["वृत्तों से संबंधित क्षेत्रफल","Areas Related to Circles"],
+   n:[
+    ["परिधि = 2πr, क्षेत्रफल = πr² (π = 22/7 या 3.14)","Circumference = 2πr, area = πr² (π = 22/7 or 3.14)"],
+    ["त्रिज्यखंड का क्षेत्रफल = (θ/360°) × πr²","Area of sector = (θ/360°) × πr²"],
+    ["चाप की लंबाई = (θ/360°) × 2πr","Length of arc = (θ/360°) × 2πr"],
+    ["वृत्तखंड का क्षेत्रफल = त्रिज्यखंड का क्षेत्रफल − त्रिभुज का क्षेत्रफल","Area of segment = area of sector − area of triangle"],
+    ["अर्धवृत्त का परिमाप = πr + 2r; वलय का क्षेत्रफल = π(R² − r²)","Perimeter of semicircle = πr + 2r; area of ring = π(R² − r²)"]
+   ],
+   q:[
+    [["7 cm त्रिज्या वाले वृत्त का क्षेत्रफल (π = 22/7):","Area of a circle of radius 7 cm (π = 22/7):"],["44 cm²","154 cm²","49 cm²","308 cm²"],1,"22/7 × 49 = 154"],
+    [["7 cm त्रिज्या वाले वृत्त की परिधि:","Circumference of a circle of radius 7 cm:"],["22 cm","44 cm","154 cm","88 cm"],1,"2 × 22/7 × 7 = 44"],
+    [["14 cm त्रिज्या और 90° कोण वाले त्रिज्यखंड का क्षेत्रफल:","Area of a sector of radius 14 cm and angle 90°:"],["154 cm²","616 cm²","77 cm²","308 cm²"],0,"1/4 × 22/7 × 196 = 154"],
+    [["यदि वृत्त की परिधि और क्षेत्रफल संख्यात्मक रूप से बराबर हैं, तो त्रिज्या:","If a circle's circumference and area are numerically equal, its radius is:"],["1","2","4","π"],1,"2πr = πr² ⇒ r = 2"],
+    [["21 cm त्रिज्या वाले वृत्त में 60° कोण की चाप की लंबाई:","Length of an arc of angle 60° in a circle of radius 21 cm:"],["22 cm","44 cm","11 cm","66 cm"],0,"1/6 × 2 × 22/7 × 21 = 22"],
+    [["घड़ी की मिनट की सुई 5 मिनट में कितना कोण घूमती है?","Angle swept by a minute hand in 5 minutes:"],["30°","60°","5°","90°"],0,"360° × 5/60 = 30°"]
+   ]},
+ { t:["पृष्ठीय क्षेत्रफल और आयतन","Surface Areas and Volumes"],
+   n:[
+    ["घन: कुल पृष्ठ = 6a², आयतन = a³; घनाभ: कुल पृष्ठ = 2(lb + bh + hl), आयतन = lbh","Cube: TSA = 6a², V = a³; cuboid: TSA = 2(lb + bh + hl), V = lbh"],
+    ["बेलन: वक्र पृष्ठ = 2πrh, कुल पृष्ठ = 2πr(r + h), आयतन = πr²h","Cylinder: CSA = 2πrh, TSA = 2πr(r + h), V = πr²h"],
+    ["शंकु: l = √(r² + h²), वक्र पृष्ठ = πrl, कुल पृष्ठ = πr(l + r), आयतन = ⅓πr²h","Cone: l = √(r² + h²), CSA = πrl, TSA = πr(l + r), V = ⅓πr²h"],
+    ["गोला: पृष्ठ = 4πr², आयतन = (4/3)πr³","Sphere: SA = 4πr², V = (4/3)πr³"],
+    ["अर्धगोला: वक्र पृष्ठ = 2πr², कुल पृष्ठ = 3πr², आयतन = (2/3)πr³","Hemisphere: CSA = 2πr², TSA = 3πr², V = (2/3)πr³"]
+   ],
+   q:[
+    [["4 cm भुजा वाले घन का आयतन:","Volume of a cube of side 4 cm:"],["16 cm³","48 cm³","64 cm³","96 cm³"],2,"4³ = 64"],
+    [["r = 7 cm, h = 10 cm वाले बेलन का आयतन:","Volume of a cylinder with r = 7 cm, h = 10 cm:"],["1540 cm³","440 cm³","154 cm³","3080 cm³"],0,"22/7 × 49 × 10 = 1540"],
+    [["r = 3 cm, h = 4 cm वाले शंकु की तिर्यक ऊँचाई:","Slant height of a cone with r = 3 cm, h = 4 cm:"],["5 cm","7 cm","25 cm","√7 cm"],0,"√(9 + 16) = 5"],
+    [["समान आधार और ऊँचाई वाले शंकु और बेलन के आयतनों का अनुपात:","Ratio of volumes of a cone and a cylinder with the same base and height:"],["1 : 3","3 : 1","1 : 2","2 : 3"],0,"⅓πr²h : πr²h = 1 : 3"],
+    [["7 cm त्रिज्या वाले गोले का पृष्ठीय क्षेत्रफल:","Surface area of a sphere of radius 7 cm:"],["616 cm²","154 cm²","1437 cm²","308 cm²"],0,"4 × 22/7 × 49 = 616"],
+    [["r त्रिज्या वाले अर्धगोले का कुल पृष्ठीय क्षेत्रफल:","Total surface area of a hemisphere of radius r:"],["2πr²","3πr²","4πr²","πr²"],1,"2πr² + πr² = 3πr²"],
+    [["गोले की त्रिज्या दुगुनी करने पर आयतन कितने गुना हो जाता है?","If the radius of a sphere is doubled, its volume becomes how many times?"],["2","4","8","6"],2,"2³ = 8"]
+   ]},
+ { t:["सांख्यिकी","Statistics"],
+   n:[
+    ["माध्य (प्रत्यक्ष विधि): x̄ = Σfᵢxᵢ / Σfᵢ","Mean (direct method): x̄ = Σfᵢxᵢ / Σfᵢ"],
+    ["कल्पित माध्य विधि: x̄ = a + Σfᵢdᵢ / Σfᵢ; पद-विचलन: x̄ = a + (Σfᵢuᵢ / Σfᵢ) × h","Assumed mean: x̄ = a + Σfᵢdᵢ / Σfᵢ; step deviation: x̄ = a + (Σfᵢuᵢ / Σfᵢ) × h"],
+    ["बहुलक = l + [(f₁ − f₀) / (2f₁ − f₀ − f₂)] × h","Mode = l + [(f₁ − f₀) / (2f₁ − f₀ − f₂)] × h"],
+    ["माध्यक = l + [(n/2 − cf) / f] × h","Median = l + [(n/2 − cf) / f] × h"],
+    ["आनुभविक संबंध: 3 माध्यक = बहुलक + 2 माध्य","Empirical relation: 3 Median = Mode + 2 Mean"],
+    ["वर्ग चिह्न = (उच्च सीमा + निम्न सीमा)/2","Class mark = (upper limit + lower limit)/2"]
+   ],
+   q:[
+    [["माध्य, माध्यक और बहुलक में आनुभविक संबंध:","Empirical relation between mean, median and mode:"],[["3 माध्यक = बहुलक + 2 माध्य","3 Median = Mode + 2 Mean"],["3 माध्य = बहुलक + 2 माध्यक","3 Mean = Mode + 2 Median"],["बहुलक = माध्य + माध्यक","Mode = Mean + Median"],["2 बहुलक = 3 माध्य + माध्यक","2 Mode = 3 Mean + Median"]],0,["इसे याद रखें","Remember this one"]],
+    [["2, 4, 6, 8, 10 का माध्य:","Mean of 2, 4, 6, 8, 10:"],["5","6","7","30"],1,"30 / 5 = 6"],
+    [["3, 5, 5, 7, 5, 8, 3 का बहुलक:","Mode of 3, 5, 5, 7, 5, 8, 3:"],["3","5","7","8"],1,["5 सबसे अधिक बार (3 बार)","5 occurs most often (3 times)"]],
+    [["1, 3, 5, 7, 9, 11 का माध्यक:","Median of 1, 3, 5, 7, 9, 11:"],["5","6","7","36"],1,"(5 + 7)/2 = 6"],
+    [["यदि माध्य = 20 और माध्यक = 22, तो बहुलक =","If mean = 20 and median = 22, then mode ="],["24","26","18","22"],1,"3 × 22 − 2 × 20 = 26"],
+    [["वर्ग 10–20 का वर्ग चिह्न:","Class mark of the class 10–20:"],["10","15","20","30"],1,"(10 + 20)/2 = 15"]
+   ]},
+ { t:["प्रायिकता","Probability"],
+   n:[
+    ["P(E) = अनुकूल परिणामों की संख्या / कुल संभावित परिणामों की संख्या","P(E) = number of favourable outcomes / total number of outcomes"],
+    ["0 ≤ P(E) ≤ 1; निश्चित घटना = 1, असंभव घटना = 0","0 ≤ P(E) ≤ 1; sure event = 1, impossible event = 0"],
+    ["P(E) + P(E नहीं) = 1","P(E) + P(not E) = 1"],
+    ["सिक्का: 2 परिणाम; दो सिक्के: 4; पासा: 6; दो पासे: 36","Coin: 2 outcomes; two coins: 4; die: 6; two dice: 36"],
+    ["ताश: 52 पत्ते, 26 लाल, 26 काले, 4 इक्के, 12 फेस कार्ड","Deck: 52 cards, 26 red, 26 black, 4 aces, 12 face cards"]
+   ],
+   q:[
+    [["एक सिक्का उछालने पर चित आने की प्रायिकता:","Probability of a head when a coin is tossed:"],["0","1/2","1","2"],1,"1/2"],
+    [["पासा फेंकने पर अभाज्य संख्या आने की प्रायिकता:","Probability of a prime number when a die is thrown:"],["1/6","1/3","1/2","2/3"],2,"{2, 3, 5} ⇒ 3/6 = 1/2"],
+    [["यदि P(E) = 0.3, तो P(E नहीं) =","If P(E) = 0.3, then P(not E) ="],["0.3","0.7","1","0"],1,"1 − 0.3 = 0.7"],
+    [["असंभव घटना की प्रायिकता:","Probability of an impossible event:"],["0","1","−1","1/2"],0,"0"],
+    [["52 पत्तों की ताश से इक्का निकलने की प्रायिकता:","Probability of drawing an ace from a 52-card deck:"],["1/52","1/13","1/4","4/13"],1,"4/52 = 1/13"],
+    [["दो सिक्के उछालने पर कम से कम एक चित आने की प्रायिकता:","Two coins are tossed. Probability of at least one head:"],["1/4","1/2","3/4","1"],2,"{HH, HT, TH} ⇒ 3/4"],
+    [["दो पासे फेंकने पर योग 7 आने की प्रायिकता:","Two dice are thrown. Probability that the sum is 7:"],["1/6","1/36","7/36","1/12"],0,"(1,6)(2,5)(3,4)(4,3)(5,2)(6,1) ⇒ 6/36 = 1/6"],
+    [["निम्न में से कौन किसी घटना की प्रायिकता नहीं हो सकती?","Which of these cannot be the probability of an event?"],["0.7","2/3","1.5","0"],2,["प्रायिकता 1 से अधिक नहीं हो सकती","Probability cannot exceed 1"]]
+   ]}
+];
+
+const TRIG = [["θ","0°","30°","45°","60°","90°"],
+  ["sin","0","1/2","1/√2","√3/2","1"],
+  ["cos","1","√3/2","1/√2","1/2","0"],
+  ["tan","0","1/√3","1","√3",["अपरिभाषित","undefined"]]];
+
+const TIPS = [
+  ["प्रश्न-पत्र में दो भाग होते हैं: वस्तुनिष्ठ (MCQ, OMR शीट पर) और विषयनिष्ठ (लघु एवं दीर्घ उत्तरीय)। ताज़ा पैटर्न के लिए BSEB का मॉडल पेपर अवश्य देखें।","The paper has two parts: objective (MCQs on an OMR sheet) and subjective (short and long answers). Always check the latest BSEB model paper for the current pattern."],
+  ["MCQ में दिए गए विकल्पों से अधिक प्रश्न होते हैं — पहले वे प्रश्न करें जो पक्के आते हैं।","The MCQ section offers more questions than you must attempt — do the ones you are sure of first."],
+  ["OMR शीट पर गोला पूरा और साफ़ भरें; काटकर दोबारा न भरें।","Fill OMR bubbles completely and neatly; never overwrite."],
+  ["सूत्र रोज़ एक बार दोहराएँ — इस ऐप का हर अध्याय पहले सूत्र दिखाता है।","Revise formulas daily — every chapter in this app shows its formulas first."],
+  ["दीर्घ उत्तरीय प्रश्नों में हर चरण लिखें; चरणों के भी अंक मिलते हैं।","Write every step in long answers; steps earn marks too."],
+  ["त्रिकोणमिति की मान-सारणी और सर्वसमिकाएँ पूरी तरह याद करें।","Memorise the trig value table and identities completely."],
+  ["पिछले वर्षों के प्रश्न-पत्र हल करें और घड़ी लगाकर अभ्यास करें।","Solve previous years' papers with a timer."],
+  ["परीक्षा से पहले अच्छी नींद लें, एडमिट कार्ड और पेन एक दिन पहले रख लें।","Sleep well before the exam; keep your admit card and pens ready the day before."]
+];
+
+let lang = 'hi';
+try { lang = localStorage.getItem('lang') || 'hi'; } catch (e) {}
+const T = x => Array.isArray(x) ? x[lang === 'hi' ? 0 : 1] : x;
+const L = (hi, en) => lang === 'hi' ? hi : en;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+function best(key) { try { return JSON.parse(localStorage.getItem('best') || '{}')[key]; } catch (e) { return undefined; } }
+function saveBest(key, pct) {
+  try {
+    const b = JSON.parse(localStorage.getItem('best') || '{}');
+    if (b[key] === undefined || pct > b[key]) { b[key] = pct; localStorage.setItem('best', JSON.stringify(b)); }
+  } catch (e) {}
+}
+
+function toggleLang() {
+  lang = lang === 'hi' ? 'en' : 'hi';
+  try { localStorage.setItem('lang', lang); } catch (e) {}
+  document.documentElement.lang = lang;
+  render();
+}
+
+function tabs(on) {
+  const t = [['#/', L('अध्याय','Chapters')], ['#/mock', L('मॉक टेस्ट','Mock Test')], ['#/tips', L('टिप्स','Tips')]];
+  return '<div class="tabs">' + t.map(([h, s]) => `<a href="${h}" class="${h === on ? 'on' : ''}">${s}</a>`).join('') + '</div>';
+}
+
+function home() {
+  return tabs('#/') + CH.map((c, i) => {
+    const b = best('c' + i);
+    const sub = `${c.q.length} ${L('प्रश्न','questions')}` + (b !== undefined ? ` · ${L('सर्वश्रेष्ठ','best')} ${b}%` : '');
+    return `<a class="card" href="#/ch/${i}"><span class="num">${i + 1}</span><span><b>${esc(T(c.t))}</b><br><span class="sub">${sub}</span></span></a>`;
+  }).join('');
+}
+
+function chapter(i) {
+  const c = CH[i];
+  let h = `<h2>${i + 1}. ${esc(T(c.t))}</h2><div class="card"><b>${L('मुख्य सूत्र एवं तथ्य','Key formulas & facts')}</b><ul class="notes">`
+    + c.n.map(x => `<li>${esc(T(x))}</li>`).join('') + '</ul></div>';
+  if (c.table) {
+    h += '<div class="card"><table>' + TRIG.map((r, k) =>
+      '<tr>' + r.map(v => k === 0 ? `<th>${esc(T(v))}</th>` : `<td>${esc(T(v))}</td>`).join('') + '</tr>').join('') + '</table></div>';
+  }
+  return h + `<a class="btn" href="#/quiz/${i}">${L('अभ्यास प्रश्न शुरू करें','Start practice quiz')} (${c.q.length})</a>`;
+}
+
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+// Active quiz: list of questions, current index, score, chosen option for the current question.
+let quiz = null;
+const MOCK_SIZE = 25;
+
+function startQuiz(key) {
+  const qs = key === 'mock'
+    ? shuffle(CH.flatMap(c => c.q)).slice(0, MOCK_SIZE)
+    : shuffle(CH[+key].q.slice());
+  // Shuffle options too, so the correct answer isn't always in the same slot.
+  const mixed = qs.map(([q, opts, ans, ex]) => {
+    const order = shuffle([0, 1, 2, 3]);
+    return [q, order.map(k => opts[k]), order.indexOf(ans), ex];
+  });
+  quiz = { key, qs: mixed, i: 0, score: 0, picked: null, start: Date.now() };
+}
+
+function quizView() {
+  const z = quiz;
+  if (z.i >= z.qs.length) return result();
+  const [q, opts, ans, ex] = z.qs[z.i];
+  const timer = z.key === 'mock' ? `<span id="timer">${elapsed()}</span>` : '';
+  let h = `<div class="bar"><span>${L('प्रश्न','Question')} ${z.i + 1}/${z.qs.length}</span>${timer}<span>${L('अंक','Score')}: ${z.score}</span></div>`
+    + `<div class="card"><b>${esc(T(q))}</b></div>`;
+  opts.forEach((o, k) => {
+    let cls = 'opt';
+    if (z.picked !== null) { if (k === ans) cls += ' right'; else if (k === z.picked) cls += ' wrong'; }
+    h += `<button class="${cls}" onclick="pick(${k})">${'abcd'[k]}) ${esc(T(o))}</button>`;
+  });
+  if (z.picked !== null) {
+    h += `<div class="explain">${z.picked === ans ? L('✔ सही!','✔ Correct!') : L('✘ गलत।','✘ Wrong.')} ${esc(T(ex))}</div>`
+      + `<button class="btn" onclick="next()">${z.i + 1 < z.qs.length ? L('अगला प्रश्न →','Next →') : L('परिणाम देखें','See result')}</button>`;
+  }
+  return h;
+}
+
+function elapsed() {
+  const s = Math.floor((Date.now() - quiz.start) / 1000);
+  return `⏱ ${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+}
+
+function pick(k) {
+  if (quiz.picked !== null) return;
+  quiz.picked = k;
+  if (k === quiz.qs[quiz.i][2]) quiz.score++;
+  render();
+}
+
+function next() { quiz.i++; quiz.picked = null; render(); window.scrollTo(0, 0); }
+
+function result() {
+  const z = quiz, pct = Math.round(100 * z.score / z.qs.length);
+  if (!z.saved) { saveBest(z.key === 'mock' ? 'mock' : 'c' + z.key, pct); z.saved = true; }
+  const msg = pct >= 80 ? L('शानदार! 🎉','Excellent! 🎉') : pct >= 50 ? L('अच्छा है, थोड़ा और अभ्यास करें।','Good, practise a bit more.') : L('सूत्र दोहराकर फिर प्रयास करें।','Revise the formulas and try again.');
+  const title = z.key === 'mock' ? L('मॉक टेस्ट','Mock test') : T(CH[+z.key].t);
+  const time = z.key === 'mock' ? `<p class="sub" style="text-align:center">${elapsed()}</p>` : '';
+  return `<h2>${esc(title)}</h2><div class="card"><p class="big">${z.score}/${z.qs.length}</p><p style="text-align:center">${pct}% — ${msg}</p>${time}</div>`
+    + `<button class="btn" onclick="retry()">${L('फिर से प्रयास करें','Try again')}</button>`
+    + `<button class="btn ghost" onclick="shareScore(${z.score},${z.qs.length})">${L('स्कोर शेयर करें','Share score')}</button>`
+    + `<a class="btn ghost" href="#/">${L('अध्याय सूची','Chapter list')}</a>`;
+}
+
+function retry() { startQuiz(quiz.key); render(); }
+
+function shareScore(s, n) {
+  const text = L(`मैंने "गणित 10 BSEB" ऐप में ${n} में से ${s} अंक पाए!`, `I scored ${s}/${n} on the "Maths 10 BSEB" app!`);
+  if (window.Android) Android.share(text);
+}
+
+function mockIntro() {
+  const b = best('mock');
+  return tabs('#/mock') + `<div class="card"><b>${L('मिश्रित मॉक टेस्ट','Mixed mock test')}</b><p>${L(`सभी 14 अध्यायों से ${MOCK_SIZE} यादृच्छिक प्रश्न, समय के साथ। हर बार नए प्रश्न।`, `${MOCK_SIZE} random questions from all 14 chapters, timed. Different every time.`)}</p>`
+    + (b !== undefined ? `<p class="sub">${L('सर्वश्रेष्ठ','Best')}: ${b}%</p>` : '') + `</div><a class="btn" href="#/quiz/mock">${L('टेस्ट शुरू करें','Start test')}</a>`;
+}
+
+function tipsView() {
+  return tabs('#/tips') + `<div class="card"><b>${L('बोर्ड परीक्षा के लिए सुझाव','Board exam tips')}</b><ul class="notes">`
+    + TIPS.map(x => `<li>${esc(T(x))}</li>`).join('') + '</ul></div>'
+    + `<p class="sub">${L('यह ऐप NCERT/BSEB कक्षा 10 गणित पाठ्यक्रम पर आधारित अभ्यास के लिए है। आधिकारिक सिलेबस और परीक्षा पैटर्न के लिए biharboardonline.bihar.gov.in देखें।','This app is for practice based on the NCERT/BSEB Class 10 maths syllabus. See biharboardonline.bihar.gov.in for the official syllabus and exam pattern.')}</p>`;
+}
+
+let tick = null;
+function render() {
+  const r = location.hash.replace(/^#\/?/, '').split('/');
+  $('langBtn').textContent = lang === 'hi' ? 'English' : 'हिंदी';
+  $('title').textContent = L('गणित कक्षा 10 · बिहार बोर्ड', 'Maths Class 10 · Bihar Board');
+  clearInterval(tick);
+  let h;
+  if (r[0] === 'ch') h = chapter(+r[1]);
+  else if (r[0] === 'quiz') {
+    if (!quiz || quiz.key !== r[1]) startQuiz(r[1]);
+    h = quizView();
+    if (quiz.key === 'mock' && quiz.i < quiz.qs.length) tick = setInterval(() => { const t = $('timer'); if (t) t.textContent = elapsed(); }, 1000);
+  }
+  else if (r[0] === 'mock') h = mockIntro();
+  else if (r[0] === 'tips') h = tipsView();
+  else h = home();
+  if (r[0] !== 'quiz') quiz = null;
+  $('app').innerHTML = h;
+}
+
+window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+document.documentElement.lang = lang;
+render();
+</script>
+</body>
+</html>
