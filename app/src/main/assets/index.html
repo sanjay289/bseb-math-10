@@ -671,8 +671,23 @@ function saveReminder() {
 
 function offReminder() { Android.cancelReminder(); render(); }
 
+const APP_URL = 'https://github.com/sanjay289/bseb-math-10/releases/latest';
+
+function shareApp() {
+  const n = CH.reduce((s, c) => s + c.q.length, 0);
+  if (window.Android) Android.share(L(
+    `बिहार बोर्ड कक्षा 10 गणित की तैयारी के लिए मुफ़्त ऐप "गणित 10 BSEB" — सभी अध्यायों के सूत्र, ${n} अभ्यास प्रश्न और मॉक टेस्ट, हिंदी और English में, बिना इंटरनेट के। डाउनलोड करें: ${APP_URL}`,
+    `"Maths 10 BSEB" — a free app for Bihar Board Class 10 maths: formulas for every chapter, ${n} practice questions and mock tests, in Hindi and English, works offline. Download: ${APP_URL}`));
+}
+
+function shareCard() {
+  if (!window.Android) return '';
+  return `<div class="card"><b>📤 ${L('दोस्तों के साथ शेयर करें','Share with friends')}</b><br><span class="sub">${L('इस ऐप को अपने सहपाठियों को भेजें।','Send this app to your classmates.')}</span>`
+    + `<button class="btn" onclick="shareApp()">${L('ऐप शेयर करें','Share app')}</button></div>`;
+}
+
 function tipsView() {
-  return tabs('#/tips') + reminderCard() + `<div class="card"><b>${L('बोर्ड परीक्षा के लिए सुझाव','Board exam tips')}</b><ul class="notes">`
+  return tabs('#/tips') + reminderCard() + shareCard() + `<div class="card"><b>${L('बोर्ड परीक्षा के लिए सुझाव','Board exam tips')}</b><ul class="notes">`
     + TIPS.map(x => `<li>${esc(T(x))}</li>`).join('') + '</ul></div>'
     + `<p class="sub">${L('यह ऐप NCERT/BSEB कक्षा 10 गणित पाठ्यक्रम पर आधारित अभ्यास के लिए है। आधिकारिक सिलेबस और परीक्षा पैटर्न के लिए biharboardonline.bihar.gov.in देखें।','This app is for practice based on the NCERT/BSEB Class 10 maths syllabus. See biharboardonline.bihar.gov.in for the official syllabus and exam pattern.')}</p>`;
 }

@@ -8,6 +8,7 @@ Offline Android app for Bihar Board (BSEB) Class 10 maths board-exam practice, i
 - Progress tracker: questions solved per chapter and overall, plus best scores, saved on the device (with reset)
 - Dark mode (follows the phone setting, or toggle with 🌙)
 - Daily practice reminder notification at a time you choose (Tips tab)
+- Share the app with classmates from the Tips tab (opens the phone's share menu)
 
 All content lives in `app/src/main/assets/index.html`, shown in a WebView.
 
