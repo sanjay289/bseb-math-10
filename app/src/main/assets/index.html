@@ -6,9 +6,9 @@
 <title>गणित 10 BSEB</title>
 <style>
   :root { --brand:#1F4E8C; --accent:#1F4E8C; --bg:#F4F6FA; --card:#fff; --ink:#1b1f27; --muted:#5d6675; --line:#d5dbe5; --th:#e8eef8;
-          --ok:#1d7a3a; --ok-bg:#e6f4ea; --bad:#b3261e; --bad-bg:#fce8e6; --explain:#f0f7f2; }
+          --ok:#1d7a3a; --ok-bg:#e6f4ea; --bad:#b3261e; --bad-bg:#fce8e6; --explain:#f0f7f2; --done:#1d7a3a; }
   :root[data-theme="dark"] { --brand:#2E5FA3; --accent:#8AB4F8; --bg:#121418; --card:#1E2128; --ink:#E6E8EC; --muted:#9AA3B2; --line:#3A3F4A; --th:#263042;
-          --ok:#81C995; --ok-bg:#1E3326; --bad:#F28B82; --bad-bg:#3A1F1E; --explain:#1E3326; color-scheme:dark; }
+          --ok:#81C995; --ok-bg:#1E3326; --bad:#F28B82; --bad-bg:#3A1F1E; --explain:#1E3326; --done:#2E7D46; color-scheme:dark; }
   * { box-sizing:border-box; }
   body { margin:0; font-family:system-ui, "Noto Sans Devanagari", sans-serif; background:var(--bg); color:var(--ink); font-size:17px; line-height:1.5; }
   header { background:var(--brand); color:#fff; padding:14px 16px; display:flex; align-items:center; gap:10px; position:sticky; top:0; z-index:1; }
@@ -21,6 +21,10 @@
   .card { background:var(--card); border-radius:12px; padding:14px; margin-bottom:10px; box-shadow:0 1px 2px rgba(0,0,0,.08); }
   a.card { display:flex; align-items:center; gap:12px; color:inherit; text-decoration:none; }
   .num { background:var(--brand); color:#fff; border-radius:50%; width:34px; height:34px; flex:none; display:flex; align-items:center; justify-content:center; font-weight:700; }
+  .num.done { background:var(--done); }
+  .grow { flex:1; }
+  .prog { height:6px; background:var(--line); border-radius:3px; overflow:hidden; margin-top:6px; }
+  .prog i { display:block; height:100%; background:var(--ok); }
   .sub { color:var(--muted); font-size:14px; }
   h2 { font-size:20px; margin:4px 0 12px; color:var(--accent); }
   ul.notes { padding-left:20px; margin:0; }
@@ -411,6 +415,24 @@ function saveBest(key, pct) {
   } catch (e) {}
 }
 
+// Progress: per chapter, the questions answered correctly at least once (keyed by Hindi question text).
+let prog = {};
+try { prog = JSON.parse(localStorage.getItem('progress') || '{}'); } catch (e) {}
+const QCH = new Map();
+CH.forEach((c, i) => c.q.forEach(q => QCH.set(q[0][0], i)));
+
+function solved(i) { return (prog[i] || []).filter(k => QCH.get(k) === i).length; }
+
+function record(q) {
+  const i = QCH.get(q[0][0]);
+  const a = prog[i] || (prog[i] = []);
+  if (a.includes(q[0][0])) return;
+  a.push(q[0][0]);
+  try { localStorage.setItem('progress', JSON.stringify(prog)); } catch (e) {}
+}
+
+const bar = (n, total) => `<div class="prog"><i style="width:${Math.round(100 * n / total)}%"></i></div>`;
+
 function toggleLang() {
   lang = lang === 'hi' ? 'en' : 'hi';
   try { localStorage.setItem('lang', lang); } catch (e) {}
@@ -440,10 +462,14 @@ function tabs(on) {
 }
 
 function chapterList() {
-  return CH.map((c, i) => {
-    const b = best('c' + i);
-    const sub = `${c.q.length} ${L('प्रश्न','questions')}` + (b !== undefined ? ` · ${L('सर्वश्रेष्ठ','best')} ${b}%` : '');
-    return `<a class="card" href="#/ch/${i}"><span class="num">${i + 1}</span><span><b>${esc(T(c.t))}</b><br><span class="sub">${sub}</span></span></a>`;
+  const all = CH.reduce((s, c) => s + c.q.length, 0);
+  const tot = CH.reduce((s, c, i) => s + solved(i), 0);
+  const done = CH.filter((c, i) => solved(i) === c.q.length).length;
+  const summary = `<div class="card"><b>${L('आपकी प्रगति','Your progress')}</b><br><span class="sub">${tot}/${all} ${L('प्रश्न सही हल किए','questions solved')} (${Math.round(100 * tot / all)}%) · ${done}/${CH.length} ${L('अध्याय पूरे','chapters complete')}</span>${bar(tot, all)}</div>`;
+  return summary + CH.map((c, i) => {
+    const b = best('c' + i), s = solved(i), n = c.q.length;
+    const sub = `${s}/${n} ${L('हल','solved')}` + (b !== undefined ? ` · ${L('सर्वश्रेष्ठ','best')} ${b}%` : '');
+    return `<a class="card" href="#/ch/${i}"><span class="num${s === n ? ' done' : ''}">${i + 1}</span><span class="grow"><b>${esc(T(c.t))}</b><br><span class="sub">${sub}</span>${bar(s, n)}</span></a>`;
   }).join('');
 }
 
@@ -512,7 +538,8 @@ function chapter(i) {
     h += '<div class="card"><table>' + TRIG.map((r, k) =>
       '<tr>' + r.map(v => k === 0 ? `<th>${esc(T(v))}</th>` : `<td>${esc(T(v))}</td>`).join('') + '</tr>').join('') + '</table></div>';
   }
-  return h + `<a class="btn" href="#/quiz/${i}">${L('अभ्यास प्रश्न शुरू करें','Start practice quiz')} (${c.q.length})</a>`;
+  return h + `<div class="card"><span class="sub">${L('प्रगति','Progress')}: ${solved(i)}/${c.q.length} ${L('प्रश्न सही हल किए','questions solved')}</span>${bar(solved(i), c.q.length)}</div>`
+    + `<a class="btn" href="#/quiz/${i}">${L('अभ्यास प्रश्न शुरू करें','Start practice quiz')} (${c.q.length})</a>`;
 }
 
 function shuffle(a) {
@@ -563,7 +590,7 @@ function elapsed() {
 function pick(k) {
   if (quiz.picked !== null) return;
   quiz.picked = k;
-  if (k === quiz.qs[quiz.i][2]) quiz.score++;
+  if (k === quiz.qs[quiz.i][2]) { quiz.score++; record(quiz.qs[quiz.i]); }
   render();
 }
 
